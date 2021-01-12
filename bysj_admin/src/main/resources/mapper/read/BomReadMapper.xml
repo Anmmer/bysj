@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinhai.bysj.basicdata.mapper.read.BomReadMapper">
+
+    <resultMap type="com.yinhai.bysj.basicdata.entity.Bom" id="BomMap">
+        <result property="index" column="INDEX" jdbcType="INTEGER"/>
+        <result property="mid" column="MID" jdbcType="VARCHAR"/>
+        <result property="sid" column="SID" jdbcType="VARCHAR"/>
+        <result property="num" column="NUM" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultType="com.yinhai.bysj.basicdata.vo.BomInfoVo">
+        select
+            INDEX as index,
+            MID as mid,
+            SID as sid,
+            NUM as num
+        from BOM
+        where INDEX = #{index}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryList" resultType="com.yinhai.bysj.basicdata.vo.WlInfoVo">
+        select
+            w.ID as id,
+            w.NAME as name,
+            w.UNIT as unit,
+            b.NUM as num
+        from WL w,BOM b
+        <where>
+            b.SID=w.ID
+
+            <if test="mid != null and mid != ''">
+                and MID = #{mid}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="queryBomList" resultType="com.yinhai.bysj.basicdata.vo.WlInfoVo">
+        select
+            b.MID as pid,
+            b.SID as id,
+            w.NAME as name,
+            b.NUM as num,
+            w.UNIT as unit
+        from WL w,BOM b where w.ID=b.SID
+    </select>
+</mapper>

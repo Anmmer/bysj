@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinhai.bysj.purchasemanagement.mapper.read.PlanReadMapper">
+
+    <resultMap type="com.yinhai.bysj.purchasemanagement.entity.Plan" id="PlanMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="num" column="NUM" jdbcType="INTEGER"/>
+        <result property="inputDate" column="INPUT_DATE" jdbcType="DATE"/>
+        <result property="inde" column="INDE" jdbcType="INTEGER"/>
+        <result property="isCompute" column="IS_COMPUTE" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultType="com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo">
+        select ID         as id,
+               NUM        as num,
+               INPUT_DATE as inputDate,
+               IS_COMPUTE as isCompute
+        from PLAN
+        where INDE = #{inde}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryList" resultType="com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo">
+        select
+        p.ID as id, p.NUM as num, p.INPUT_DATE as inputDate, p.IS_COMPUTE as isCompute,p.INDE as inde, w.UNIT as unit,
+        w.NAME as name
+        from PLAN p, WL w
+        <where>
+            w.ID=p.ID
+
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+
+            <if test="startDate != null">
+                <![CDATA[and INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+            </if>
+
+            <if test="endDate != null">
+                <![CDATA[and  INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd') + 1]]>
+            </if>
+
+            <if test="isCompute != null and isCompute != ''">
+                and IS_COMPUTE = #{isCompute}
+            </if>
+
+        </where>
+    </select>
+
+
+</mapper>

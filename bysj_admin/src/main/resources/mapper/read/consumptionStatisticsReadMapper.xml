@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.yinhai.bysj.consumptionstatistics.mapper.read.consumptionStatisticsReadMapper">
+
+        <resultMap type="com.yinhai.bysj.consumptionstatistics.entity.ConsumptionStatistics" id="ConsumptionStatisticsMap">
+            <result property="id" column="ID" jdbcType="VARCHAR"/>
+            <result property="num" column="NUM" jdbcType="INTEGER"/>
+        </resultMap>
+
+        <!--查询单个-->
+        <select id="queryById" resultType="com.yinhai.bysj.consumptionstatistics.vo.ConsumptionStatisticsInfoVo">
+        select
+          ID as id, NUM as num
+        from CONSUMPTION_STATISTICS
+        where ID = #{id}
+    </select>
+
+        <!--查询指定行数据-->
+        <select id="queryList" resultType="com.yinhai.bysj.consumptionstatistics.vo.ConsumptionStatisticsInfoVo">
+            select
+            c.ID as id,
+            w.NAME as name,
+            w.UNIT as unit,
+            w.TYPE as type,
+            c.NUM as num,
+            c.INPUT_DATE as inputDate
+            from CONSUMPTION_STATISTICS c,WL w
+            <where>
+                c.ID = w.ID
+
+                <if test="id != null and id != ''">
+                    and c.ID = #{id}
+                </if>
+
+                <if test="name != null and name != ''">
+                    and w.NAME = #{name}
+                </if>
+
+                <if test="startDate != null">
+                    <![CDATA[and c.INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+                </if>
+
+                <if test="endDate != null">
+                    <![CDATA[and  c.INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd') + 1]]>
+                </if>
+            </where>
+
+        </select>
+    </mapper>

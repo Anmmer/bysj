@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinhai.bysj.purchasemanagement.mapper.read.MRReadMapper">
+
+    <resultMap type="com.yinhai.bysj.purchasemanagement.entity.Mr" id="MrMap">
+        <result property="index" column="INDEX" jdbcType="INTEGER"/>
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="unit" column="UNIT" jdbcType="VARCHAR"/>
+        <result property="sid" column="SID" jdbcType="VARCHAR"/>
+        <result property="sname" column="SNAME" jdbcType="VARCHAR"/>
+        <result property="sunit" column="SUNIT" jdbcType="VARCHAR"/>
+        <result property="num" column="NUM" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!--查询指定行数据-->
+    <select id="queryList" resultType="com.yinhai.bysj.purchasemanagement.vo.MrInfoVo">
+        select
+        m.ID as id,
+        m.NAME as name,
+        m.UNIT as unit,
+        m.SID as sid,
+        m.SNAME as sname,
+        m.SUNIT as sunit,
+        m.IS_ORDER as isOrder,
+        m.NUM as num,
+        p.NUM as pnum,
+        p.COMPUTE_DATE as computeDate
+        from MR m,PLAN p
+        <where>
+            m.ID = p.ID
+            <if test="index != null">
+                and INDEX = #{index}
+            </if>
+
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+
+            <if test="name != null and name != ''">
+                and NAME = #{name}
+            </if>
+
+            <if test="unit != null and unit != ''">
+                and UNIT = #{unit}
+            </if>
+
+            <if test="sid != null and sid != ''">
+                and SID = #{sid}
+            </if>
+
+            <if test="sname != null and sname != ''">
+                and SNAME = #{sname}
+            </if>
+
+            <if test="sunit != null and sunit != ''">
+                and SUNIT = #{sunit}
+            </if>
+
+            <if test="num != null">
+                and NUM = #{num}
+            </if>
+            <if test="startDate != null">
+                <![CDATA[and p.INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+            </if>
+
+            <if test="endDate != null">
+                <![CDATA[and  p.INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd') + 1]]>
+            </if>
+
+        </where>
+    </select>
+</mapper>

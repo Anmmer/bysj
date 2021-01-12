@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinhai.bysj.purchasemanagement.mapper.write.PlanWriteMapper">
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo">
+        insert into PLAN(ID, NUM, INPUT_DATE,IS_COMPUTE)
+        values (#{id,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{inputDate,jdbcType=TIMESTAMP},#{isCompute,jdbcType=VARCHAR})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo">
+        update PLAN
+        <set>
+            <if test="num != null">
+                NUM = #{num,jdbcType=INTEGER},
+            </if>
+            <if test="inputDate != null">
+                INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isCompute != null and isCompute != ''">
+                IS_COMPUTE = #{isCompute,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where INDE = #{inde}
+    </update>
+
+    <update id="batchUpdate" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index"  open="begin" close=";end;" separator=";">
+            update PLAN p set p.IS_COMPUTE = #{item.isCompute},p.COMPUTE_DATE = #{item.computeDate} where p.ID =
+            #{item.id}
+        </foreach>
+    </update>
+
+    <!--通过主键物理删除-->
+    <delete id="deleteById">
+        delete
+        from PLAN
+        where INDE = #{inde}
+    </delete>
+
+    <!--通过主键逻辑删除-->
+    <delete id="updateToDestroyById">
+        update PLAN
+        set destory = '1'
+        where INDE = #{index}
+    </delete>
+
+
+</mapper>

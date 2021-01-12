@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinhai.bysj.consumptionstatistics.mapper.read.finishedProductReadMapper">
+
+    <resultMap type="com.yinhai.bysj.consumptionstatistics.entity.FinishedProduct" id="FinishedProductMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="num" column="NUM" jdbcType="INTEGER"/>
+        <result property="inputDate" column="INPUT_DATE" jdbcType="TIMESTAMP"/>
+        <result property="isCompute" column="IS_COMPUTE" jdbcType="VARCHAR"/>
+        <result property="computeDate" column="COMPUTE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="inde" column="INDE" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultType="com.yinhai.bysj.consumptionstatistics.vo.FinishedProductInfoVo">
+        select ID           as id,
+               NUM          as num,
+               INPUT_DATE   as inputDate,
+               IS_COMPUTE   as isCompute,
+               COMPUTE_DATE as computeDate,
+               INDE         as inde
+        from FINISHED_PRODUCT
+        where INDE = #{inde}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryList" resultType="com.yinhai.bysj.consumptionstatistics.vo.FinishedProductInfoVo">
+        select
+        f.ID as id,
+        w.NAME as name,
+        w.UNIT as unit,
+        f.NUM as num,
+        f.INPUT_DATE as inputDate,
+        f.IS_COMPUTE as isCompute,
+        f.COMPUTE_DATE as computeDate,
+        f.INDE as inde
+        from FINISHED_PRODUCT f,WL w
+        <where>
+            f.ID = w.ID
+
+            <if test="id != null and id != ''">
+                and f.ID = #{id}
+            </if>
+
+            <if test="name != null and name != ''">
+                and w.NAME = #{name}
+            </if>
+
+            <if test="startDate != null">
+                <![CDATA[and f.INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+            </if>
+
+            <if test="endDate != null">
+                <![CDATA[and  f.INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd') + 1]]>
+            </if>
+
+        </where>
+    </select>
+
+    <select id="queryNumList" resultType="com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo">
+        SELECT
+        p.ID AS id,
+        w.NAME AS name,
+        p.num as num,
+        w.UNIT AS unit
+        FROM
+        ( SELECT ID AS id, SUM( NUM ) AS num FROM PLAN WHERE IS_COMPUTE = '是' GROUP BY ID ) p,WL w
+        <where>
+            w.ID = p.id
+            <if test="id != null and id !=''">
+                and ID = #{id}
+            </if>
+
+            <if test="name != null and name != ''">
+                and NAME = #{name}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryNumByInde" resultType="com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo">
+        SELECT num from (SELECT ID AS id, SUM( NUM ) AS num FROM PLAN WHERE IS_COMPUTE = '是' GROUP BY ID)
+        <where>
+           id = #{id}
+        </where>
+    </select>
+</mapper>

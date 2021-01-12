@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinhai.bysj.consumptionstatistics.mapper.write.consumptionStatisticsWriteMapper">
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="ArrayList">
+        begin
+        insert all
+        <foreach collection="list" item="item">
+            into CONSUMPTION_STATISTICS(ID,NUM,INPUT_DATE) values (#{item.id,jdbcType=VARCHAR}, #{item.num,jdbcType=INTEGER},#{item.inputDate,jdbcType=TIMESTAMP})
+        </foreach>
+        select 1 from dual;
+        end;
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.yinhai.bysj.consumptionstatistics.vo.ConsumptionStatisticsInfoVo">
+        update CONSUMPTION_STATISTICS
+        <set>
+            <if test="num != null">
+                NUM = #{num,jdbcType=INTEGER},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键物理删除-->
+    <delete id="deleteByDate">
+        delete from CONSUMPTION_STATISTICS
+        where
+
+        <![CDATA[INPUT_DATE >= to_date(to_char(#{startDate}, 'yyyy-mm-dd'), 'yyyy-mm-dd')]]>
+
+        <![CDATA[and INPUT_DATE < to_date(to_char(#{endDate}, 'yyyy-mm-dd'), 'yyyy-mm-dd') + 1]]>
+
+    </delete>
+
+    <!--通过主键逻辑删除-->
+    <delete id="updateToDestroyById">
+        update CONSUMPTION_STATISTICS
+        set destory = '1'
+        where ID = #{id}
+    </delete>
+
+</mapper>

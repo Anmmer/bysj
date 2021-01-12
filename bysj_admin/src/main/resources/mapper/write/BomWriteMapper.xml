@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinhai.bysj.basicdata.mapper.write.BomWriteMapper">
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.yinhai.bysj.basicdata.vo.BomInfoVo">
+        insert into BOM(MID, SID, NUM)
+        values (#{mid,jdbcType=VARCHAR}, #{sid,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.yinhai.bysj.basicdata.vo.BomInfoVo">
+        update BOM
+        <set>
+            <if test="num != null">
+                NUM = #{num,jdbcType=INTEGER},
+            </if>
+        </set>
+        where SID = #{sid} and MID = #{mid}
+    </update>
+
+    <!--通过主键物理删除-->
+    <delete id="deleteBySid">
+        delete
+        from BOM
+        where
+        <if test="sid!=null and sid!=''">
+            SID = #{sid} and
+        </if>
+        MID = #{mid}
+    </delete>
+
+    <!--通过主键逻辑删除-->
+    <delete id="updateToDestroyById">
+        update BOM
+        set destory = '1'
+        where INDEX = #{index}
+    </delete>
+
+    <insert id="insertBomBatch" parameterType="ArrayList" useGeneratedKeys="false">
+        insert all
+        <foreach collection="list" item="item">
+            into BOM(MID, SID, NUM) values
+            (
+            <if test="null != item.mid != ''">
+                #{item.mid},
+            </if>
+            <if test="null != item.sid != ''">
+                #{item.sid},
+            </if>
+            <if test="null != item.num != ''">
+                #{item.num}
+            </if>
+            )
+        </foreach>
+        select 1 from dual
+    </insert>
+
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.yinhai.bysj.purchasemanagement.mapper.read.purchaseManagementReadMapper">
+
+        <resultMap type="com.yinhai.bysj.purchasemanagement.entity.Gys" id="GysMap">
+                            <result property="gysid" column="GYSID" jdbcType="VARCHAR"/>
+                            <result property="gys" column="GYS" jdbcType="VARCHAR"/>
+                    </resultMap>
+
+        <!--查询指定行数据-->
+        <select id="queryList" resultType="com.yinhai.bysj.purchasemanagement.vo.GysQueryVo">
+            select
+            GYSID as gysid, GYS as gys
+            from GYS
+
+        </select>
+    </mapper>

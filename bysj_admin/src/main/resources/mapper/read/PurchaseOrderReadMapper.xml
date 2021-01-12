@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinhai.bysj.purchasemanagement.mapper.read.PurchaseOrderReadMapper">
+
+    <resultMap type="com.yinhai.bysj.purchasemanagement.entity.PurchaseOrder" id="PurchaseOrderMap">
+        <result property="orderId" column="ORDER_ID" jdbcType="VARCHAR"/>
+        <result property="inputDate" column="INPUT_DATE" jdbcType="TIMESTAMP"/>
+        <result property="isDelivered" column="IS_DELIVERED" jdbcType="VARCHAR"/>
+        <result property="deliveredDate" column="DELIVERED_DATE" jdbcType="TIMESTAMP"/>
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="num" column="NUM" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryMrNUMList" resultType="com.yinhai.bysj.purchasemanagement.vo.PurchaseOrderInfoVo">
+        SELECT SID      AS id,
+               SUM(NUM) AS num
+        FROM MR
+        WHERE IS_ORDER = '否'
+        GROUP BY SID
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryList" resultType="com.yinhai.bysj.purchasemanagement.vo.PurchaseOrderInfoVo">
+        select
+        p.ORDER_ID as orderId,
+        p.INPUT_DATE as inputDate,
+        p.IS_DELIVERED as isDelivered,
+        p.DELIVERED_DATE as deliveredDate,
+        p.ID as id,
+        p.NUM as num,
+        w.NAME as name,
+        w.UNIT as unit,
+        g.GYS as gys
+        from PURCHASE_ORDER p,WL w,GYS g
+        <where>
+            p.ID = w.ID
+            AND w.GYSID = g.GYSID
+
+            <if test="startDate != null">
+                <![CDATA[and INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+            </if>
+
+            <if test="endDate != null">
+                <![CDATA[and  INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd') + 1]]>
+            </if>
+
+        </where>
+    </select>
+</mapper>
