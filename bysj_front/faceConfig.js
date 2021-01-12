@@ -30,7 +30,6 @@ const faceConfig = () => {
       'auditModules/audit',
       'workTable/workTablePage',
       'onlineForm'
-
     ],
     projectModules: [
       'business/basicData',
