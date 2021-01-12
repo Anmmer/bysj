@@ -98,7 +98,7 @@ module.exports = {
     hot: true,
     compress: true,
     host: HOST || '0.0.0.0',
-    port: PORT || '8080',
+    port: PORT || '8081',
     open: false,
     openPage: 'login.html',
     index: 'login.html',
