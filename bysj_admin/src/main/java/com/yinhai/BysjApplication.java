@@ -21,7 +21,7 @@ public class BysjApplication {
 public static void main(String[] args) {
         SpringApplication application = new SpringApplication(BysjApplication.class);
         try {
-            application.run(args);int asd;
+            application.run(args);
         } catch (Exception e) {
             e.printStackTrace();
         }
