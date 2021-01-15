@@ -33,6 +33,6 @@ public interface finishedProductReadMapper  extends Ta404SupportMapper{
 
     List<PlanInfoVo> queryNumList(PlanQueryVo planQueryVo);
 
-    PlanInfoVo queryNumByInde(@Param("id")String inde);
+    PlanInfoVo queryNumByInde(PlanQueryVo planQueryVo);
 
 }

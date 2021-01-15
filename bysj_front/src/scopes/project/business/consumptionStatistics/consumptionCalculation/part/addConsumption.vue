@@ -87,6 +87,10 @@ export default {
       tableColumns,
       num: 0,
       FP: [],
+      finishedProductQueryVo: {
+        startDate: this.year + "-" + this.month + "-" + "01",
+        endDate: this.year + "-" + this.month + "-" + this.day,
+      },
     };
   },
   mounted() {
@@ -104,22 +108,20 @@ export default {
         }
       }
       if (isCompute) {
-        $api.addConsumptionStatisticsInfo((result) => {
-          this.$message.success("计算成功");
-          this.$emit("hideModal");
-        });
+        $api.addConsumptionStatisticsInfo(
+          this.finishedProductQueryVo,
+          (result) => {
+            this.$message.success("计算成功");
+            this.$emit("hideModal");
+          }
+        );
       } else {
         this.$message.error("暂无可计算计划");
       }
     },
     userPageParams() {
-      let finishedProductQueryVo = {};
-      finishedProductQueryVo.startDate =
-        this.year + "-" + this.month + "-" + "01";
-      finishedProductQueryVo.endDate =
-        this.year + "-" + this.month + "-" + this.day;
       //这里返回的对象是分页要一同提交的参数
-      return finishedProductQueryVo;
+      return this.finishedProductQueryVo;
     },
   },
 };

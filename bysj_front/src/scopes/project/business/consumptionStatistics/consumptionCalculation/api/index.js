@@ -1,9 +1,9 @@
 const BASE_URL = "/consumptionStatistics/";
 export default {
-  addConsumptionStatisticsInfo(callBack) {
+  addConsumptionStatisticsInfo(data, callBack) {
     Base.submit(
       null,
-      { url: BASE_URL + "addConsumptionStatisticsInfo" },
+      { url: BASE_URL + "addConsumptionStatisticsInfo", data: data },
       { successCallback: (data) => callBack(data) }
     );
   },

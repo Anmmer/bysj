@@ -2,6 +2,7 @@ package com.yinhai.bysj.basicdata.common;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +13,27 @@ public class BomTreeNode implements Serializable {
     private String name;
     private String unit;
     private Integer num;
+    private String type;
+    private BigDecimal price;
     private List<BomTreeNode> children = new ArrayList<>();
 
     public BomTreeNode() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public String getName() {

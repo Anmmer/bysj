@@ -41,27 +41,18 @@ public class consumptionStatisticsRestService extends BaseRestService {
      * 新增数据
      */
     @PostMapping("addConsumptionStatisticsInfo")
-    public void addConsumptionStatisticsInfo() {
+    public void addConsumptionStatisticsInfo(FinishedProductQueryVo finishedProductQueryVo) {
         List<ConsumptionStatisticsAddVo> list = new ArrayList<>();
         Map<String, Integer> index = new HashMap<>();
         int a = 0;
-        FinishedProductQueryVo finishedProductQueryVo = new FinishedProductQueryVo();
-        Calendar cale = Calendar.getInstance();
-        cale.add(Calendar.MONTH, 0);
-        cale.set(Calendar.DAY_OF_MONTH, 1);
-        cale.set(Calendar.HOUR_OF_DAY, 0);
-        cale.set(Calendar.MINUTE, 0);
-        cale.set(Calendar.SECOND, 0);
-        cale.set(Calendar.MILLISECOND, 0);
-        finishedProductQueryVo.setStartDate(cale.getTime());
-        cale.add(Calendar.MONTH, 1);
-        cale.set(Calendar.DAY_OF_MONTH, 0);
-        finishedProductQueryVo.setEndDate(cale.getTime());
         finishedProductQueryVo.setIsCompute("否");
         List<FinishedProductInfoVo> finishedProductInfoVoList = finishedProductService.queryFinishedProductInfoList(finishedProductQueryVo);
         Map<String, BomTreeNode> map = bomReadService.queryBomTreeList();
         for (int i = 0; i < finishedProductInfoVoList.size(); i++) {
             FinishedProductInfoVo finishedProductInfoVo = finishedProductInfoVoList.get(i);
+            if(map.get(finishedProductInfoVoList.get(i).getId())==null){
+                continue;
+            }
             BomTreeNode bomTreeNode = map.get(finishedProductInfoVoList.get(i).getId());
             List<BomTreeNode> children;
             for (int j = 0; j < bomTreeNode.getChildren().size(); j++) {

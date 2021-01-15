@@ -1,14 +1,7 @@
 package com.yinhai.bysj.datavisualization.entity;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
-public class StackingDiagram implements Serializable {
-
+public class BarChart {
     public static final long serialVersionUID = 0L;
 
     private String id;
@@ -16,23 +9,27 @@ public class StackingDiagram implements Serializable {
     private Integer num;
     private String type;
     private String stack;
+    private Integer[] data = {0,0,0,0,0,0,0,0,0,0,0,0};
 
-    private List<BigDecimal> data = new ArrayList<>();
-
-    public StackingDiagram() {
+    public BarChart() {
     }
 
-    public StackingDiagram(String name, String type) {
+
+    public BarChart(String name, String type) {
         this.name = name;
         this.type = type;
     }
 
-    public StackingDiagram(String name, String type, String stack) {
+    public BarChart(String name, String type, String stack) {
         this.name = name;
         this.type = type;
         this.stack = stack;
     }
-
+    public BarChart(String id, String name, Integer num) {
+        this.id = id;
+        this.name = name;
+        this.num = num;
+    }
 
     public String getId() {
         return id;
@@ -48,14 +45,6 @@ public class StackingDiagram implements Serializable {
 
     public void setNum(Integer num) {
         this.num = num;
-    }
-
-    public List<BigDecimal> getData() {
-        return data;
-    }
-
-    public void setData(List<BigDecimal> data) {
-        this.data = data;
     }
 
     public String getName() {
@@ -82,4 +71,11 @@ public class StackingDiagram implements Serializable {
         this.stack = stack;
     }
 
+    public Integer[] getData() {
+        return data;
+    }
+
+    public void setData(Integer[] data) {
+        this.data = data;
+    }
 }

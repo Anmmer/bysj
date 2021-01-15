@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import $api from "../stackingDiagram/api/index";
+import $api from "../materialStackingDiagram/api/index";
 export default {
   name: "materielPieChart",
   data() {
@@ -57,6 +57,14 @@ export default {
             orient: "vertical",
             left: 0,
             data: ["原材料", "自制半成品", "辅助材料", "产成品", "低值易耗品"],
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              dataView: { show: true, readOnly: false },
+              restore: { show: true },
+              saveAsImage: { show: true },
+            },
           },
           // series: [
           //   {

@@ -25,6 +25,9 @@
             <ta-form-item label="货品名称" fieldDecoratorId="name" :span="6">
               <ta-input placeholder="" style="width: 200px" />
             </ta-form-item>
+            <ta-form-item label="分类名称" fieldDecoratorId="type" :span="6">
+              <ta-select collectionType="PRODUCTIONTYPE" style="width: 180px"/>
+            </ta-form-item>
             <ta-form-item :span="6">
               <ta-button @click="queryWLCondition" type="primary"
                 >查询</ta-button
@@ -71,6 +74,7 @@
             :oneMainBom="oneMainBom"
             ref="addChildren"
             @hideModal="hideModal"
+            @addSuccess="addSuccess"
           />
         </ta-card>
       </div>
@@ -127,7 +131,7 @@ export default {
     return {
       mainBOM: [],
       oneMainBom: {},
-      isputbom:'',
+      isputbom: "",
       visible: false,
       tagData: [
         { value: "1", label: "已添加" },
@@ -142,9 +146,12 @@ export default {
     });
   },
   methods: {
-    hideModal() {
+    addSuccess() {
       this.visible = false;
       this.$refs.gridPager.loadData((data) => {});
+    },
+    hideModal() {
+      this.visible = false;
     },
     resetValue() {
       // 对设置了fieldDecoratorId的表单元素重置值
@@ -153,8 +160,8 @@ export default {
     },
     userPageParams() {
       let wlQueryVo = this.form1.getFieldsValue();
-      if(this.isputbom!==''){
-        wlQueryVo.isputbom=this.isputbom
+      if (this.isputbom !== "") {
+        wlQueryVo.isputbom = this.isputbom;
       }
       //这里返回的对象是分页要一同提交的参数
       return wlQueryVo;
@@ -176,19 +183,19 @@ export default {
     },
     queryWLCondition() {
       let data = this.form1.getFieldsValue();
-      if (data.id !== undefined || data.name !== undefined) {
+      if (data.id !== undefined || data.name !== undefined || data.type!==undefined) {
         this.$refs.gridPager.loadData((data) => {});
       }
     },
     getResult(data) {
       if (data[0] == "0") {
-        this.isputbom="否"
+        this.isputbom = "否";
         this.$refs.gridPager.loadData((data) => {});
-      } else if(data[0]=="1") {
-        this.isputbom="是"
+      } else if (data[0] == "1") {
+        this.isputbom = "是";
         this.$refs.gridPager.loadData((data) => {});
-      }else{
-        this.isputbom=''
+      } else {
+        this.isputbom = "";
         this.$refs.gridPager.loadData((data) => {});
       }
     },

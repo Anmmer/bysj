@@ -5,26 +5,33 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.yinhai.ta404.core.utils.DateUtils;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+
 public class ReadExcel {
     public static void main(String[] args) {
-        Calendar cale = Calendar.getInstance();
-        cale.add(Calendar.MONTH, 0);
-        cale.set(Calendar.DAY_OF_MONTH, 1);
-        cale.set(Calendar.HOUR_OF_DAY, 0);
-        cale.set(Calendar.MINUTE, 0);
-        cale.set(Calendar.SECOND,0);
-        cale.set(Calendar.MILLISECOND, 0);
-        System.out.println(cale.getTime());
-        cale.add(Calendar.MONTH, 1);
-        cale.set(Calendar.DAY_OF_MONTH, 0);
-        System.out.println(cale.getTime());
+//        System.out.println(DateUtils.getDate(2020, 1, 1, 0, 0, 0));
+        BigDecimal b = new BigDecimal("0.8");
+        System.out.println(b);
+
+//        Calendar cale = Calendar.getInstance();
+//        cale.add(Calendar.MONTH, 0);
+//        cale.set(Calendar.DAY_OF_MONTH, 1);
+//        cale.set(Calendar.HOUR_OF_DAY, 0);
+//        cale.set(Calendar.MINUTE, 0);
+//        cale.set(Calendar.SECOND,0);
+//        cale.set(Calendar.MILLISECOND, 0);
+//        System.out.println(cale.getTime());
+//        cale.add(Calendar.MONTH, 1);
+//        cale.set(Calendar.DAY_OF_MONTH, 0);
+//        System.out.println(cale.getTime());
 //        ReadExcel obj = new ReadExcel();
 //        // 此处为我创建Excel路径
 //        File file = new File("D:\\program\\idea\\bysj\\bysj.xls");
@@ -40,6 +47,7 @@ public class ReadExcel {
 //        }
 
     }
+
     // 去读Excel的方法readExcel，该方法的入口参数为一个File对象
     public List readExcel(File file) {
         try {
@@ -50,16 +58,16 @@ public class ReadExcel {
             // Excel的页签数量
             int sheet_size = wb.getNumberOfSheets();
             for (int index = sheet_size - 1; index >= 0; index--) {
-                List<List> outerList=new ArrayList<List>();
+                List<List> outerList = new ArrayList<List>();
                 // 每个页签创建一个Sheet对象
                 Sheet sheet = wb.getSheet(index);
                 // sheet.getRows()返回该页的总行数
                 for (int i = 0; i < sheet.getRows(); i++) {
-                    List innerList=new ArrayList();
+                    List innerList = new ArrayList();
                     // sheet.getColumns()返回该页的总列数
                     for (int j = 0; j < sheet.getColumns(); j++) {
                         String cellinfo = sheet.getCell(j, i).getContents();
-                        if(cellinfo.isEmpty()){
+                        if (cellinfo.isEmpty()) {
                             continue;
                         }
                         innerList.add(cellinfo);

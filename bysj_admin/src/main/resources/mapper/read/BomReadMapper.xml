@@ -44,7 +44,9 @@
             b.SID as id,
             w.NAME as name,
             b.NUM as num,
-            w.UNIT as unit
+            w.UNIT as unit,
+            w.PRICE as price,
+            w.TYPE as type
         from WL w,BOM b where w.ID=b.SID
     </select>
 </mapper>

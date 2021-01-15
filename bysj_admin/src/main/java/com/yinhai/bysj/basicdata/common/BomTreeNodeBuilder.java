@@ -19,7 +19,6 @@ public class BomTreeNodeBuilder {
                 pid = treeNodes.get(i).getPid();
                 BomTreeNode bom = new BomTreeNode();
                 bom.setId(treeNodes.get(i).getPid());
-                bom.setName(treeNodes.get(i).getName());
                 nodes.put(bom.getId(), bom);
             }
 
@@ -31,6 +30,8 @@ public class BomTreeNodeBuilder {
                     bom.setName(treeNodes.get(j).getName());
                     bom.setNum(treeNodes.get(j).getNum());
                     bom.setUnit(treeNodes.get(j).getUnit());
+                    bom.setPrice(treeNodes.get(j).getPrice());
+                    bom.setType(treeNodes.get(j).getType());
                     bom.setLabel(bom.getId() + "[" + treeNodes.get(j).getName() + "]" + "×" + treeNodes.get(j).getNum() + treeNodes.get(j).getUnit());
                     nodes.get(pid).getChildren().add(bom);
                     indexC++;
@@ -43,6 +44,8 @@ public class BomTreeNodeBuilder {
                     bom.setName(treeNodes.get(j).getName());
                     bom.setNum(treeNodes.get(j).getNum());
                     bom.setUnit(treeNodes.get(j).getUnit());
+                    bom.setPrice(treeNodes.get(j).getPrice());
+                    bom.setType(treeNodes.get(j).getType());
                     bom.setLabel(bom.getId() + "[" + treeNodes.get(j).getName() + "]" + "×" + treeNodes.get(j).getNum() + treeNodes.get(j).getUnit());
                     nodes.get(pid).getChildren().get(mapC.get(treeNodes.get(j).getPid())).getChildren().add(bom);
                 }

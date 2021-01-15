@@ -17,8 +17,12 @@ public class PlanInfoVo implements Serializable {
     private String id;
             //数量
     private Integer num;
+            //已生成数量
+    private Integer consumeNum;
             //录入时间
     private Date inputDate;
+            //计划日期
+    private String planDate;
 
     private String name;
 
@@ -27,6 +31,22 @@ public class PlanInfoVo implements Serializable {
     private String isCompute;
 
     private Date computeDate;
+
+    public String getPlanDate() {
+        return planDate;
+    }
+
+    public void setPlanDate(String planDate) {
+        this.planDate = planDate;
+    }
+
+    public Integer getConsumeNum() {
+        return consumeNum;
+    }
+
+    public void setConsumeNum(Integer consumeNum) {
+        this.consumeNum = consumeNum;
+    }
 
     public Integer getInde() {
         return inde;

@@ -299,12 +299,12 @@ export default {
             { id: this.oneMainBom.id, addBom: JSON.stringify(data) },
             (result) => {
               this.$message.success("录入成功");
-              this.$emit("hideModal");
+              this.$emit("addSuccess");
             }
           );
         }
       } else {
-        this.$emit("hideModal");
+        this.$message.error("请选择");
       }
     },
   },

@@ -56,20 +56,7 @@ public class consumptionStatisticsWriteServiceImpl extends BaseService implement
             finishedProduct.setIsCompute("是");
             finishedProductList.add(finishedProduct);
         }
-        ConsumptionStatisticsQueryVo consumptionStatisticsQueryVo = new ConsumptionStatisticsQueryVo();
-        Calendar cale = Calendar.getInstance();
-        cale.add(Calendar.MONTH, 0);
-        cale.set(Calendar.DAY_OF_MONTH, 1);
-        cale.set(Calendar.HOUR_OF_DAY, 0);
-        cale.set(Calendar.MINUTE, 0);
-        cale.set(Calendar.SECOND, 0);
-        cale.set(Calendar.MILLISECOND, 0);
-        consumptionStatisticsQueryVo.setStartDate(cale.getTime());
-        cale.add(Calendar.MONTH, 1);
-        cale.set(Calendar.DAY_OF_MONTH, 0);
-        consumptionStatisticsQueryVo.setEndDate(cale.getTime());
         finishedProductWriteService.batchUpdate(finishedProductList);
-        consumptionStatisticsWriteMapper.deleteByDate(consumptionStatisticsQueryVo);
         int i = consumptionStatisticsWriteMapper.insert(consumptionStatisticsList);
         if (i == 0) {
             throw new AppException("未添加任何数据，请重试");

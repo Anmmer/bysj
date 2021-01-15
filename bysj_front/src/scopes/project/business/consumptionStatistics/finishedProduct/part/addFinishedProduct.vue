@@ -35,8 +35,8 @@
         <ta-form-item label="货品编号" fieldDecoratorId="id" :span="6">
           <ta-input style="width: 150px" />
         </ta-form-item>
-        <ta-form-item label="货品名称" fieldDecoratorId="name" :span="7">
-          <ta-input style="width: 150px" />
+        <ta-form-item label="计划日期" fieldDecoratorId="time" :span="7">
+          <ta-month-picker />
         </ta-form-item>
         <ta-form-item :span="6">
           <ta-button @click="queryPlanCondition" type="primary">查询</ta-button>
@@ -107,7 +107,7 @@ const tableColumns = [
   {
     title: "科目编号",
     dataIndex: "id",
-    width: "80px",
+    width: "90px",
     align: "center",
   },
   {
@@ -117,32 +117,45 @@ const tableColumns = [
     align: "center",
   },
   {
-    title: "单位",
-    dataIndex: "unit",
+    title: "计划日期",
+    dataIndex: "planDate",
     width: "80px",
     align: "center",
   },
   {
-    title: "计划总共数",
+    title: "计划总数",
     dataIndex: "num",
     width: "80px",
+    align: "center",
+  },
+  {
+    title: "当月完成数",
+    dataIndex: "consumeNum",
+    width: "90px",
+    align: "center",
+  },
+  {
+    title: "单位",
+    dataIndex: "unit",
+    width: "60px",
     align: "center",
   },
   {
     title: "操作",
     dataIndex: "action",
     align: "center",
-    width: "90px",
+    width: "60px",
     scopedSlots: { customRender: "action" },
   },
 ];
 export default {
   name: "addFinishedProduct",
-  props: ["visible"],
+  props: ["visible", "year", "month", "day"],
   data() {
     return {
       tableColumns,
       num: 0,
+      consumeNum: 0,
       plan: [],
     };
   },
@@ -157,24 +170,32 @@ export default {
         unit1: record.unit,
       });
       this.num = record.num;
+      this.consumeNum = record.consumeNum;
     },
     hideModalChildren() {
       this.$emit("hideModal");
     },
     addPlanSubmit() {
       let values = this.form1.getFieldsValue();
+      let planQueryVo = {
+        startDate: this.year + "-" + this.month + "-" + "01",
+        endDate: this.year + "-" + this.month + "-" + this.day,
+        id: values.id1,
+        num: values.num,
+        isCompute: "否",
+      };
       if (values.id1 !== undefined) {
-        if (values.num > this.num) {
+        if (values.num + this.consumeNum > this.num) {
           this.$message.error("数量不能超过计划总数");
         } else {
-          $api.addFinishedProductInfo(
-            this.form1,
-            { id: values.id1, num: values.num, isCompute: "否" },
-            (result) => {
+          $api.addFinishedProductInfo(this.form1, planQueryVo, (result) => {
+            if (result.data.message == 1) {
+              this.$message.error("数量不能超过计划总数");
+            } else {
               this.$message.success("录入成功");
               this.$emit("hideModal");
             }
-          );
+          });
         }
       } else {
         this.$message.error("请选择产成品");
@@ -182,6 +203,13 @@ export default {
     },
     userPageParams() {
       let planQueryVo = this.form.getFieldsValue();
+      if (planQueryVo.time == undefined) {
+        planQueryVo.startDate = this.year + "-" + this.month + "-" + "01";
+        planQueryVo.endDate = this.year + "-" + this.month + "-" + this.day;
+      } else {
+        planQueryVo.startDate = planQueryVo.time.format("YYYY-MM");
+        planQueryVo.endDate = planQueryVo.time.format("YYYY-MM");
+      }
       return planQueryVo;
     },
     resetValue() {
@@ -191,7 +219,7 @@ export default {
     },
     queryPlanCondition() {
       let data = this.form.getFieldsValue();
-      if (data.id !== undefined || data.name !== undefined) {
+      if (data.id !== undefined || data.time !== undefined) {
         this.$refs.gridPagerChildren.loadData((data) => {});
       }
     },

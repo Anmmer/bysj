@@ -77,7 +77,7 @@
                 />
                 <span v-if="record.isCompute == '是'">已计算，无法操作</span>
               </template>
-              <span slot="num">数量 <ta-icon type="edit" /></span>
+              <span slot="num">数量 <ta-icon type="edit"/></span>
             </ta-table>
           </ta-form>
           <ta-pagination
@@ -89,6 +89,9 @@
           />
           <add-finished-product
             :visible="visible"
+            :year="year"
+            :month="month"
+            :day="day"
             v-if="visible"
             @hideModal="hideModal"
           />
@@ -155,6 +158,7 @@ export default {
       visible: false,
       year: 0,
       month: 0,
+      day: 0,
       num: 0,
       productPlan: [],
       tableColumns,
@@ -184,10 +188,11 @@ export default {
       let d = new Date(this.year, this.month, 0);
       this.year = date.getFullYear();
       this.month = date.getMonth() + 1;
+      this.day = d.getDate();
       FinishedProductQueryVo.startDate =
         this.year + "-" + this.month + "-" + "01";
       FinishedProductQueryVo.endDate =
-        this.year + "-" + this.month + "-" + d.getDate();
+        this.year + "-" + this.month + "-" + this.day;
       //这里返回的对象是分页要一同提交的参数
       return FinishedProductQueryVo;
     },
@@ -210,14 +215,14 @@ export default {
         let data = Object.assign(record, newData);
         $api.editFinishedProductInfo(
           this.form2,
-          { inde: data.inde, num: data.num,id:data.id },
+          { inde: data.inde, num: data.num, id: data.id },
           (result) => {
-            if(result.data.message===1){
+            if (result.data.message === 1) {
               this.$message.error("数量超过计划总数");
-            }else if(result.data.message===2){
-              this.$message.error("已计算,无法操作")
-            }else{
-              this.$message.success("修改成功")
+            } else if (result.data.message === 2) {
+              this.$message.error("已计算,无法操作");
+            } else {
+              this.$message.success("修改成功");
             }
           }
         );

@@ -96,6 +96,9 @@
             <if test="isputbom !=null and isputbom !=''">
                 and ISPUTBOM = #{isputbom}
             </if>
+            <if test="type !=null and type !=''">
+                and TYPE = #{type}
+            </if>
         </where>
     </select>
 

@@ -4,7 +4,9 @@ import com.yinhai.bysj.consumptionstatistics.service.read.finishedProductReadSer
 import com.yinhai.bysj.consumptionstatistics.service.write.finishedProductWriteService;
 import com.yinhai.bysj.consumptionstatistics.vo.FinishedProductAddVo;
 import com.yinhai.bysj.consumptionstatistics.vo.FinishedProductEditVo;
+import com.yinhai.bysj.consumptionstatistics.vo.FinishedProductInfoVo;
 import com.yinhai.bysj.consumptionstatistics.vo.FinishedProductQueryVo;
+import com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo;
 import com.yinhai.bysj.purchasemanagement.vo.PlanQueryVo;
 import org.springframework.web.bind.annotation.*;
 import com.yinhai.ta404.core.restservice.annotation.RestService;
@@ -36,11 +38,24 @@ public class finishedProductRestService extends BaseRestService {
     /**
      * 新增数据
      *
-     * @param finishedProductAddVo
+     * @param planQueryVo
      */
     @PostMapping("addFinishedProductInfo")
-    public void addFinishedProductInfo(@Valid FinishedProductAddVo finishedProductAddVo) {
-        finishedProductWriteService.addFinishedProductInfo(finishedProductAddVo);
+    public void addFinishedProductInfo(@Valid PlanQueryVo planQueryVo) {
+        PlanInfoVo planInfoVo = finishedProductReadService.queryNumByInde(planQueryVo);
+        if(planInfoVo.getConsumeNum()==null){
+            planInfoVo.setConsumeNum(0);
+        }
+        if (planInfoVo.getNum() < planQueryVo.getNum() + planInfoVo.getConsumeNum()) {
+            setData("message", 1);
+        } else {
+            FinishedProductAddVo finishedProductAddVo = new FinishedProductAddVo();
+            finishedProductAddVo.setId(planQueryVo.getId());
+            finishedProductAddVo.setNum(planQueryVo.getNum());
+            finishedProductAddVo.setIsCompute(planQueryVo.getIsCompute());
+            finishedProductWriteService.addFinishedProductInfo(finishedProductAddVo);
+            setData("message", 2);
+        }
     }
 
     /**
@@ -66,15 +81,20 @@ public class finishedProductRestService extends BaseRestService {
     /**
      * 编辑数据
      *
-     * @param finishedProductEditVo
+     * @param planQueryVo
      */
     @PostMapping("editFinishedProductInfo")
-    public void editFinishedProductInfo(@Valid FinishedProductEditVo finishedProductEditVo) {
-        if(finishedProductReadService.queryNumById(finishedProductEditVo.getId()).getNum() < finishedProductEditVo.getNum()){
-            setData("message",1);
-        }else if (finishedProductReadService.queryFinishedProductInfoByInde(finishedProductEditVo.getInde()).getIsCompute() == "是") {
+    public void editFinishedProductInfo(@Valid PlanQueryVo planQueryVo) {
+        PlanInfoVo planInfoVo = finishedProductReadService.queryNumByInde(planQueryVo);
+        if (planInfoVo.getNum() < planQueryVo.getNum() + planInfoVo.getConsumeNum()) {
+            setData("message", 1);
+        } else if (finishedProductReadService.queryFinishedProductInfoByInde(planQueryVo.getInde()).getIsCompute() == "是") {
             setData("message", 2);
         } else {
+            FinishedProductEditVo finishedProductEditVo = new FinishedProductEditVo();
+            finishedProductEditVo.setId(planInfoVo.getId());
+            finishedProductEditVo.setInde(planQueryVo.getInde());
+            finishedProductEditVo.setNum(planInfoVo.getNum());
             finishedProductWriteService.editFinishedProductInfo(finishedProductEditVo);
             setData("message", 3);
         }

@@ -2,16 +2,125 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yinhai.bysj.datavisualization.mapper.read.StatisticsReadMapper">
     <select id="queryMaterialConsum" resultType="com.yinhai.bysj.datavisualization.entity.Total">
-        SELECT to_char(INPUT_DATE, 'mm') as month,sum(NUM) as num
-        FROM
-             (SELECT cs.NUM, cs.INPUT_DATE, w.TYPE FROM CONSUMPTION_STATISTICS cs, WL w
-              WHERE cs.ID = w.ID and w.TYPE = #{type})
+        SELECT to_char(INPUT_DATE, 'mm') as month, sum(NUM) as num
+        FROM (SELECT cs.NUM, cs.INPUT_DATE, w.TYPE
+        FROM CONSUMPTION_STATISTICS cs,
+        WL w
+        WHERE
+        cs.ID = w.ID
+        and
+        w.TYPE = #{type}
+        <if test="startDate != null">
+            <![CDATA[and INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+
+        <if test="endDate != null">
+            <![CDATA[and  INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+        )
         GROUP BY to_char(INPUT_DATE, 'mm')
-        ORDER BY
-            to_char( INPUT_DATE, 'mm' )
+        ORDER BY to_char(INPUT_DATE, 'mm')
     </select>
 
     <select id="queryCountByType" resultType="com.yinhai.bysj.datavisualization.entity.PieChart">
-        SELECT TYPE as name,COUNT(*) as value FROM WL GROUP BY TYPE
+        SELECT TYPE as name, COUNT(*) as value
+        FROM WL
+        GROUP BY TYPE
+    </select>
+
+    <select id="queryMaterialMoney" resultType="com.yinhai.bysj.datavisualization.entity.Total">
+        SELECT to_char(INPUT_DATE, 'mm') AS month,
+        sum(NUM * PRICE) AS num
+        FROM (
+        SELECT cs.NUM,
+        cs.INPUT_DATE,
+        w.PRICE
+        FROM CONSUMPTION_STATISTICS cs,
+        WL w
+        WHERE
+        cs.ID = w.ID
+        AND w.TYPE = #{type}
+        <if test="startDate != null">
+            <![CDATA[and cs.INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+
+        <if test="endDate != null">
+            <![CDATA[and  cs.INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+        )
+        GROUP BY to_char(INPUT_DATE, 'mm')
+    </select>
+
+    <select id="queryProduct3DChart" resultType="com.yinhai.bysj.datavisualization.entity.Consumption">
+        SELECT F.MONTH,
+        F.ID,
+        F.NUM,
+        W.NAME
+        FROM WL W,
+        (
+        SELECT to_char(INPUT_DATE, 'mm') AS MONTH,
+        ID,
+        SUM(NUM) AS NUM
+        FROM FINISHED_PRODUCT
+        WHERE
+        <if test="startDate != null">
+            <![CDATA[INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+
+        <if test="endDate != null">
+            <![CDATA[and  INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+        GROUP BY to_char(INPUT_DATE, 'mm'),
+        ID
+        ) F
+        WHERE W.ID = F.ID
+    </select>
+    <select id="funnelSupplierChart" resultType="com.yinhai.bysj.datavisualization.entity.PieChart">
+        SELECT COUNT(*) as value, G.GYS as name
+        FROM WL W,
+             GYS G
+        WHERE W.GYSID = G.GYSID
+          AND GYS != '无'
+        GROUP BY G.GYS
+    </select>
+
+    <select id="productNum" resultType="com.yinhai.bysj.datavisualization.entity.Consumption">
+        SELECT
+        A.ID as ID,
+        W.NAME as NAME,
+        A.NUM as NUM
+        FROM
+        (SELECT ID AS ID,SUM(NUM) as NUM
+        FROM FINISHED_PRODUCT
+        WHERE
+        <if test="startDate != null">
+            <![CDATA[ INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+
+        <if test="endDate != null">
+            <![CDATA[and INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+        GROUP BY ID) A,WL W
+        WHERE A.ID = W.ID
+    </select>
+
+    <select id="queryProductByMonth" resultType="com.yinhai.bysj.datavisualization.entity.Total">
+        SELECT
+        ID AS ID,
+        SUM( NUM ) AS NUM,
+        to_char( INPUT_DATE, 'mm' ) AS MONTH
+        FROM
+        FINISHED_PRODUCT
+        WHERE
+        <if test="startDate != null">
+            <![CDATA[ INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+
+        <if test="endDate != null">
+            <![CDATA[and INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+        </if>
+        GROUP BY
+        to_char( INPUT_DATE, 'mm' ),
+        ID
     </select>
 </mapper>
