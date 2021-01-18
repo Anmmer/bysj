@@ -14,10 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Validated
 @RestService("Statistics")
@@ -190,6 +187,7 @@ public class StatisticsRestService extends BaseRestService {
                     }
                 }
             }
+//        Arrays.stream(barChart1.getData()).max()
         setData("barChar1",barChart1);
         setData("barChar2",barChart2);
         }
