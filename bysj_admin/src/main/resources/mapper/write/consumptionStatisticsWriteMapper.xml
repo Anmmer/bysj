@@ -7,7 +7,10 @@
         begin
         insert all
         <foreach collection="list" item="item">
-            into CONSUMPTION_STATISTICS(ID,NUM,INPUT_DATE) values (#{item.id,jdbcType=VARCHAR}, #{item.num,jdbcType=INTEGER},#{item.inputDate,jdbcType=TIMESTAMP})
+            into CONSUMPTION_STATISTICS(ID,NUM,INPUT_DATE) values
+            (#{item.id,jdbcType=VARCHAR},
+            #{item.num,jdbcType=INTEGER},
+            #{item.inputDate,jdbcType=TIMESTAMP})
         </foreach>
         select 1 from dual;
         end;

@@ -38,7 +38,7 @@
     </insert>
 
     <update id="batchUpdate" parameterType="java.util.List">
-        <foreach collection="list" item="item" index="index"  open="begin" close=";end;" separator=";">
+        <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
             update MR m set m.IS_ORDER = #{item.isOrder} where m.SID =#{item.sid}
         </foreach>
     </update>
