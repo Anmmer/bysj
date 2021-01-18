@@ -187,7 +187,8 @@ public class StatisticsRestService extends BaseRestService {
                     }
                 }
             }
-//        Arrays.stream(barChart1.getData()).max()
+        Arrays.sort(barChart1.getData());
+        setData("char1");
         setData("barChar1",barChart1);
         setData("barChar2",barChart2);
         }
