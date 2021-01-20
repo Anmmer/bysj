@@ -136,7 +136,6 @@ public class PlanRestService extends BaseRestService {
         for (int i = 0; i < planList.size(); i++) {
             PlanInfoVo planInfoVo = planList.get(i);
             planList.get(i).setIsCompute("是");
-            planList.get(i).setComputeDate(timeService.getSysDate());
             BomTreeNode bomTreeNode = map.get(planInfoVo.getId());
             List<BomTreeNode> children;
             for (int j = 0; j < bomTreeNode.getChildren().size(); j++) {
@@ -151,6 +150,7 @@ public class PlanRestService extends BaseRestService {
                     mrAddVo.setSname(bomTreeNode1.getName());
                     mrAddVo.setSunit(bomTreeNode1.getUnit());
                     mrAddVo.setIsOrder("否");
+                    mrAddVo.setComputeDate(timeService.getSysDate());
                     list.add(mrAddVo);
                 } else {
                     children = bomTreeNode.getChildren().get(j).getChildren();
@@ -163,6 +163,8 @@ public class PlanRestService extends BaseRestService {
                         mrAddVo.setSid(children.get(k).getId());
                         mrAddVo.setSname(children.get(k).getName());
                         mrAddVo.setSunit(children.get(k).getUnit());
+                        mrAddVo.setIsOrder("否");
+                        mrAddVo.setComputeDate(timeService.getSysDate());
                         list.add(mrAddVo);
                     }
                 }

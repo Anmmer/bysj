@@ -64,5 +64,35 @@ public class consumptionStatisticsWriteServiceImpl extends BaseService implement
         return i;
     }
 
+    /**
+     * 新增数据
+     *
+     * @return 实例对象
+     */
+    @Override
+    public int addTestInfo(List<ConsumptionStatisticsAddVo> list, List<FinishedProductInfoVo> finishedProductInfoVoList) {
+        List<ConsumptionStatistics> consumptionStatisticsList = new ArrayList<>();
+        List<FinishedProduct> finishedProductList = new ArrayList<>();
+        for (int j = 0; j < list.size(); j++) {
+            ConsumptionStatistics consumptionStatistics = new ConsumptionStatistics();
+            consumptionStatistics.setId(list.get(j).getId());
+            consumptionStatistics.setNum(list.get(j).getNum());
+            consumptionStatistics.setInputDate(list.get(j).getInputDate());
+            consumptionStatisticsList.add(consumptionStatistics);
+        }
+//        for (int k = 0; k < finishedProductInfoVoList.size(); k++) {
+//            FinishedProduct finishedProduct = new FinishedProduct();
+//            finishedProduct.setInde(finishedProductInfoVoList.get(k).getInde());
+//            finishedProduct.setComputeDate(finishedProductInfoVoList.get(k).getInputDate());
+//            finishedProduct.setIsCompute("是");
+//            finishedProductList.add(finishedProduct);
+//        }
+//        finishedProductWriteService.batchUpdate(finishedProductList);
+        int i = consumptionStatisticsWriteMapper.insert(consumptionStatisticsList);
+        if (i == 0) {
+            throw new AppException("未添加任何数据，请重试");
+        }
+        return i;
+    }
 
 }

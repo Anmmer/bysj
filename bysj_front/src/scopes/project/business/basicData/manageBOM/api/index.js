@@ -62,10 +62,10 @@ export default {
       { successCallback: (data) => callBack(data) }
     );
   },
-  addBomInfo(data, callBack) {
+  addBomInfo(form, data, callBack) {
     Base.submit(
-      null,
-      { url: BASE_URL + "addBomInfo", data: data },
+      form,
+      { url: BASE_URL + "addBomInfo", data: data ,autoValid: true },
       { successCallback: (data) => callBack(data) }
     );
   },

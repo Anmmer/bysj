@@ -123,7 +123,7 @@ const tableColumns = [
   {
     title: "品名",
     dataIndex: "name",
-    width: "20%",
+    width: "23%",
     align: "center",
   },
   {
@@ -135,7 +135,7 @@ const tableColumns = [
   {
     title: "录入时间",
     dataIndex: "bomdate",
-    width: "24%",
+    width: "20%",
     align: "center",
   },
   {

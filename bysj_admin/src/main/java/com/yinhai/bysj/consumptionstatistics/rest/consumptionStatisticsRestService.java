@@ -50,7 +50,7 @@ public class consumptionStatisticsRestService extends BaseRestService {
         Map<String, BomTreeNode> map = bomReadService.queryBomTreeList();
         for (int i = 0; i < finishedProductInfoVoList.size(); i++) {
             FinishedProductInfoVo finishedProductInfoVo = finishedProductInfoVoList.get(i);
-            if(map.get(finishedProductInfoVoList.get(i).getId())==null){
+            if (map.get(finishedProductInfoVoList.get(i).getId()) == null) {
                 continue;
             }
             BomTreeNode bomTreeNode = map.get(finishedProductInfoVoList.get(i).getId());
@@ -85,7 +85,48 @@ public class consumptionStatisticsRestService extends BaseRestService {
                 }
             }
         }
-        consumptionStatisticsWriteService.addConsumptionStatisticsInfo(list,finishedProductInfoVoList);
+        consumptionStatisticsWriteService.addConsumptionStatisticsInfo(list, finishedProductInfoVoList);
+    }
+
+    /**
+     * 新增数据
+     */
+    @PostMapping("addTest")
+    public void addTest() {
+        FinishedProductQueryVo finishedProductQueryVo = new FinishedProductQueryVo();
+        List<ConsumptionStatisticsAddVo> list = new ArrayList<>();
+
+//        finishedProductQueryVo.setIsCompute("否");
+        List<FinishedProductInfoVo> finishedProductInfoVoList = finishedProductService.queryFinishedProductInfoList(finishedProductQueryVo);
+        Map<String, BomTreeNode> map = bomReadService.queryBomTreeList();
+        for (int i = 0; i < finishedProductInfoVoList.size(); i++) {
+            FinishedProductInfoVo finishedProductInfoVo = finishedProductInfoVoList.get(i);
+            if (map.get(finishedProductInfoVoList.get(i).getId()) == null) {
+                continue;
+            }
+            BomTreeNode bomTreeNode = map.get(finishedProductInfoVoList.get(i).getId());
+            List<BomTreeNode> children;
+            for (int j = 0; j < bomTreeNode.getChildren().size(); j++) {
+                if (bomTreeNode.getChildren().get(j).getChildren().size() == 0) {//两层
+                    BomTreeNode bomTreeNode1 = bomTreeNode.getChildren().get(j);
+                    ConsumptionStatisticsAddVo consumptionStatisticsAddVo = new ConsumptionStatisticsAddVo();
+                    consumptionStatisticsAddVo.setNum(finishedProductInfoVo.getNum() * bomTreeNode1.getNum());
+                    consumptionStatisticsAddVo.setId(bomTreeNode1.getId());
+                    consumptionStatisticsAddVo.setInputDate(finishedProductInfoVo.getInputDate());
+                    list.add(consumptionStatisticsAddVo);
+                } else {
+                    children = bomTreeNode.getChildren().get(j).getChildren();//三层
+                    for (int k = 0; k < children.size(); k++) {
+                        ConsumptionStatisticsAddVo consumptionStatisticsAddVo = new ConsumptionStatisticsAddVo();
+                        consumptionStatisticsAddVo.setId(children.get(k).getId());
+                        consumptionStatisticsAddVo.setNum(children.get(k).getNum() * bomTreeNode.getChildren().get(j).getNum() * finishedProductInfoVo.getNum());
+                        consumptionStatisticsAddVo.setInputDate(finishedProductInfoVo.getInputDate());
+                        list.add(consumptionStatisticsAddVo);
+                    }
+                }
+            }
+        }
+        consumptionStatisticsWriteService.addTestInfo(list, finishedProductInfoVoList);
     }
 
     /**

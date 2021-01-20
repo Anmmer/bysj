@@ -103,23 +103,42 @@
       </ta-form>
     </div>
     <div style="width: 550px; position: absolute; left: 690px; top: 230px">
-      <ta-table
-        :columns="addBomColumns"
-        :dataSource="addBom"
-        :scroll="{ y: 200 }"
+      <ta-form
+        :autoFormCreate="
+          (form) => {
+            this.form2 = form;
+          }
+        "
       >
-        <ta-table-edit
-          slot="num"
-          slot-scope="text, record"
-          type="inputNumber"
-          :before-change="fnBeforeChange"
-          @change="changeData"
-        />
-        <span slot="numTitle">组成量 <ta-icon type="edit" /></span>
-        <a slot="action" slot-scope="text, record" @click="deleteOne(record)"
-          >删除</a
+        <ta-table
+          :columns="addBomColumns"
+          :dataSource="addBom"
+          :scroll="{ y: 200 }"
         >
-      </ta-table>
+          <ta-table-edit
+            slot="num"
+            slot-scope="text, record"
+            :editForm="form2"
+            :row-editable="true"
+            :rules="[{ required: true, message: '不能为空' }]"
+            type="inputNumber"
+          />
+          <span slot="numTitle">组成量 <ta-icon type="edit"/></span>
+          <ta-table-edit
+            :editForm="form2"
+            slot="action"
+            slot-scope="text, record"
+            type="rowEdit"
+            rowKey="id"
+            :row-editable="true"
+            :dataSource="addBom"
+            :beforeChange="fnBeforeChange"
+            @change="changeData"
+            @tableChange="fnTableChange"
+            @rowDelete="fnRowDelete"
+          />
+        </ta-table>
+      </ta-form>
     </div>
   </ta-modal>
 </template>
@@ -129,24 +148,24 @@ const addBomColumns = [
   {
     title: "子件编号",
     dataIndex: "id",
-    width: "100px",
+    width: "18%",
     align: "center",
   },
   {
     title: "子件品名",
     dataIndex: "name",
-    width: "130px",
+    width: "28%",
     align: "center",
   },
   {
     title: "单位",
     dataIndex: "unit",
-    width: "70px",
+    width: "12%",
     align: "center",
   },
   {
     dataIndex: "num",
-    width: "150px",
+    width: "20%",
     align: "center",
     slots: { title: "numTitle" },
     scopedSlots: { customRender: "num" },
@@ -155,7 +174,7 @@ const addBomColumns = [
     title: "操作",
     dataIndex: "action",
     align: "center",
-    width: "70px",
+    width: "30%",
     scopedSlots: { customRender: "action" },
   },
 ];
@@ -233,10 +252,6 @@ export default {
         }
       }
     },
-    deleteOne(record) {
-      const index = this.addBom.indexOf(record);
-      this.addBom.splice(index, 1);
-    },
     hideModalChildren() {
       this.$emit("hideModal");
     },
@@ -266,14 +281,19 @@ export default {
         callback("不能为空");
       } else {
         callback();
-        // 可在此处对表格数据进行处理
-        record[columnKey] = newData;
       }
     },
     changeData({ newData, record, columnKey }) {
       // 将单元格数据修改为新值（newData：返回改变的值、record：该行的行数据、columnKey：该列的key）
       // 也可当表格编辑状态关闭后，在此处对表格数据进行处理
-      record[columnKey] = newData;
+      Object.assign(record, newData);
+    },
+    fnTableChange(dataSource) {
+      // 将返回有editable属性的表格数据，赋给表格
+      this.addBom = dataSource;
+    },
+    fnRowDelete(deleteId) {
+      this.addBom = this.addBom.filter((item) => item.id !== deleteId);
     },
     addChildrenSubmit() {
       if (this.addBom.length !== 0) {
@@ -288,7 +308,7 @@ export default {
           this.addBom[i].mid = this.oneMainBom.id;
           if (this.addBom[i].num == null) {
             this.$message.error(
-              "请输入 " + this.addBom[i].name + " 的组成量！"
+              "请修改 " + this.addBom[i].name + " 的组成量！"
             );
             isNotNull = false;
             break;

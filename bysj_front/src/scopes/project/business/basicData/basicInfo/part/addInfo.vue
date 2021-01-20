@@ -5,7 +5,7 @@
     :closable="true"
     @close="onClose"
     :visible="visible"
-    width="500"
+    width="450"
   >
     <ta-form
       :autoFormCreate="
@@ -19,7 +19,7 @@
         fieldDecoratorId="name"
         :require="{ message: '请输入!' }"
       >
-        <ta-input style="width: 300px" />
+        <ta-input style="width: 200px" />
       </ta-form-item>
       <ta-form-item
         style="margin-top: 20px"
@@ -27,7 +27,7 @@
         fieldDecoratorId="standard"
         :require="{ message: '请输入!' }"
       >
-        <ta-input style="width: 300px" />
+        <ta-input style="width: 200px" />
       </ta-form-item>
       <ta-form-item
         style="margin-top: 20px"
@@ -35,7 +35,7 @@
         fieldDecoratorId="type"
         :require="{ message: '请输入!' }"
       >
-        <ta-input style="width: 300px" />
+        <ta-input style="width: 200px" />
       </ta-form-item>
       <ta-form-item
         style="margin-top: 20px"
@@ -43,7 +43,7 @@
         fieldDecoratorId="unit"
         :require="{ message: '请输入!' }"
       >
-        <ta-input style="width: 300px" />
+        <ta-input style="width: 200px" />
       </ta-form-item>
       <ta-form-item
         style="margin-top: 20px"
@@ -51,7 +51,7 @@
         fieldDecoratorId="gysid"
         :require="{ message: '请选择!' }"
       >
-        <ta-select style="width: 300px">
+        <ta-select style="width: 200px">
           <ta-select-option v-for="s in this.gysList" :key="s.gysid">{{
             s.gys
           }}</ta-select-option></ta-select

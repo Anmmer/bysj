@@ -69,21 +69,21 @@ import $api from "./api/index";
 import addConsumption from "./part/addConsumption.vue";
 const tableColumns = [
   {
-    title: "产品品号",
+    title: "原料品号",
     dataIndex: "id",
-    width: "20%",
+    width: "15%",
     align: "center",
   },
   {
-    title: "产品品名",
+    title: "原料品名",
     dataIndex: "name",
-    width: "20%",
+    width: "15%",
     align: "center",
   },
   {
     title: "产品类别",
     dataIndex: "type",
-    width: "20%",
+    width: "15%",
     align: "center",
   },
   {
@@ -101,7 +101,7 @@ const tableColumns = [
   {
     title: "录入时间",
     dataIndex: "inputDate",
-    width: "15%",
+    width: "18%",
     align: "center",
   },
 ];

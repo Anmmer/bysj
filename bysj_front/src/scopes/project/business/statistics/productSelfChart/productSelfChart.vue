@@ -112,7 +112,7 @@ export default {
               type: "value",
               name: "产量",
               min: 0,
-              max: 250,
+              max: result.data.char1Max,
               axisLabel: {
                 formatter: "{value} 个",
               },
@@ -121,7 +121,7 @@ export default {
               type: "value",
               name: "生产费用",
               min: 0,
-              max: 50000,
+              max: result.data.Char2Max,
               axisLabel: {
                 formatter: "{value} 元",
               },

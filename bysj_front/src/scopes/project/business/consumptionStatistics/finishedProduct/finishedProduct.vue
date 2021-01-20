@@ -215,7 +215,13 @@ export default {
         let data = Object.assign(record, newData);
         $api.editFinishedProductInfo(
           this.form2,
-          { inde: data.inde, num: data.num, id: data.id },
+          {
+            inde: data.inde,
+            num: data.num,
+            id: data.id,
+            startDate: this.year + "-" + this.month + "-" + "01",
+            endDate: this.year + "-" + (this.month+1) + "-" + "01",
+          },
           (result) => {
             if (result.data.message === 1) {
               this.$message.error("数量超过计划总数");

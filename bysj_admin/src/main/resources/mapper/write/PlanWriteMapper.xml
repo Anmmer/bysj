@@ -27,7 +27,7 @@
 
     <update id="batchUpdate" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index"  open="begin" close=";end;" separator=";">
-            update PLAN p set p.IS_COMPUTE = #{item.isCompute},p.COMPUTE_DATE = #{item.computeDate} where p.ID =
+            update PLAN p set p.IS_COMPUTE = #{item.isCompute} where p.ID =
             #{item.id}
         </foreach>
     </update>

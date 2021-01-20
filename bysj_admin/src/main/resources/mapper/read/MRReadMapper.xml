@@ -17,19 +17,18 @@
     <!--查询指定行数据-->
     <select id="queryList" resultType="com.yinhai.bysj.purchasemanagement.vo.MrInfoVo">
         select
-        m.ID as id,
-        m.NAME as name,
-        m.UNIT as unit,
-        m.SID as sid,
-        m.SNAME as sname,
-        m.SUNIT as sunit,
-        m.IS_ORDER as isOrder,
-        m.NUM as num,
-        p.NUM as pnum,
-        p.COMPUTE_DATE as computeDate
-        from MR m,PLAN p
+        ID as id,
+        NAME as name,
+        UNIT as unit,
+        SID as sid,
+        SNAME as sname,
+        SUNIT as sunit,
+        IS_ORDER as isOrder,
+        NUM as num,
+        PNUM as pnum,
+        COMPUTE_DATE as computeDate
+        from MR
         <where>
-            m.ID = p.ID
             <if test="index != null">
                 and INDEX = #{index}
             </if>
@@ -62,11 +61,11 @@
                 and NUM = #{num}
             </if>
             <if test="startDate != null">
-                <![CDATA[and p.INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+                <![CDATA[and COMPUTE_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
             </if>
 
             <if test="endDate != null">
-                <![CDATA[and  p.INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd') + 1]]>
+                <![CDATA[and COMPUTE_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd') + 1]]>
             </if>
 
         </where>

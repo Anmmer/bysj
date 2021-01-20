@@ -5,6 +5,7 @@ import com.yinhai.bysj.basicdata.service.read.BomReadService;
 import com.yinhai.bysj.basicdata.service.read.basicInfoReadService;
 import com.yinhai.bysj.basicdata.vo.WlInfoVo;
 import com.yinhai.bysj.basicdata.vo.WlQueryVo;
+import com.yinhai.bysj.datavisualization.common.Utils;
 import com.yinhai.bysj.datavisualization.entity.*;
 import com.yinhai.bysj.datavisualization.service.read.StatisticsService;
 import com.yinhai.ta404.core.restservice.BaseRestService;
@@ -76,15 +77,20 @@ public class StatisticsRestService extends BaseRestService {
     public void product3DChart(Limit limit){
         WlQueryVo wlQueryVo = new WlQueryVo();
         wlQueryVo.setType("产成品");
+        wlQueryVo.setIsputbom("是");
         List<WlInfoVo> wlList = basicInfoReadService.queryWlInfoList(wlQueryVo);
         Map<String, Consumption> map = new HashMap<>();
         for (WlInfoVo wl:wlList) {
             map.put(wl.getId(),new Consumption(wl.getId(),wl.getName()));
         }
         List<Consumption> consumptions = statisticsService.queryProduct3DChart(limit);
+        Integer max = 0;
         for (Consumption con:consumptions) {
             if(map.get(con.getId())!=null){
                 map.get(con.getId()).getArray()[Integer.valueOf(con.getMonth())-1]=con.getNum();
+                if(con.getNum()>max){
+                    max=con.getNum();
+                }
             }
         }
         List<Integer[]> list = new ArrayList<>();
@@ -96,6 +102,7 @@ public class StatisticsRestService extends BaseRestService {
                 list.add(array);
             }
         }
+        setData("max",max*1.2);
         setData("list",list);
         setData("nameList",nameList);
     }
@@ -135,34 +142,31 @@ public class StatisticsRestService extends BaseRestService {
         for (Consumption c : list1) {
             Map<String, BomTreeNode> map = bomReadService.queryBomTreeList();
             BomTreeNode bomTreeNode = map.get(c.getId());
+            BigDecimal z = new BigDecimal(0);
+            BigDecimal y = new BigDecimal(0);
+            BigDecimal f = new BigDecimal(0);
             for (int i = 0; i < bomTreeNode.getChildren().size(); i++) {
                 if (bomTreeNode.getChildren().get(i).getChildren().size() != 0) {
-                    bD.getData().add(new BigDecimal(c.getNum()).multiply(bomTreeNode.getChildren().get(i).getPrice()));
+                    z=z.add(new BigDecimal(c.getNum()*bomTreeNode.getChildren().get(i).getNum()).multiply(bomTreeNode.getChildren().get(i).getPrice()));
                     List<BomTreeNode> children = bomTreeNode.getChildren().get(i).getChildren();
                     for (BomTreeNode bomTreeNode1 : children) {
                         if (bomTreeNode1.getType().equals("原材料")) {
-                            yD.getData().add(new BigDecimal(c.getNum() * bomTreeNode.getChildren().get(i).getNum() * bomTreeNode1.getNum()).multiply(bomTreeNode1.getPrice()));
-                        }
-                        if(bomTreeNode1.getType().equals("辅助材料")){
-                            fD.getData().add(new BigDecimal(c.getNum() * bomTreeNode.getChildren().get(i).getNum() * bomTreeNode1.getNum()).multiply(bomTreeNode1.getPrice()));
-                        }else {
-                            yD.getData().add(new BigDecimal(0));
-                            fD.getData().add(new BigDecimal(0));
+                            y=y.add(new BigDecimal(c.getNum() * bomTreeNode.getChildren().get(i).getNum() * bomTreeNode1.getNum()).multiply(bomTreeNode1.getPrice()));
+                        }else if(bomTreeNode1.getType().equals("辅助材料")){
+                            f=f.add(new BigDecimal(c.getNum() * bomTreeNode.getChildren().get(i).getNum() * bomTreeNode1.getNum()).multiply(bomTreeNode1.getPrice()));
                         }
                     }
                 } else {
-                    bD.getData().add(new BigDecimal(0));
                     if(bomTreeNode.getChildren().get(i).getType().equals("原材料")){
-                        yD.getData().add(new BigDecimal(c.getNum()*bomTreeNode.getChildren().get(i).getNum()).multiply(bomTreeNode.getChildren().get(i).getPrice()));
-                    }
-                    if(bomTreeNode.getChildren().get(i).getType().equals("辅助材料")){
-                        fD.getData().add(new BigDecimal(c.getNum()*bomTreeNode.getChildren().get(i).getNum()).multiply(bomTreeNode.getChildren().get(i).getPrice()));
-                    }else {
-                        yD.getData().add(new BigDecimal(0));
-                        fD.getData().add(new BigDecimal(0));
+                        y=y.add(new BigDecimal(c.getNum()*bomTreeNode.getChildren().get(i).getNum()).multiply(bomTreeNode.getChildren().get(i).getPrice()));
+                    }else if(bomTreeNode.getChildren().get(i).getType().equals("辅助材料")){
+                        f=f.add(new BigDecimal(c.getNum()*bomTreeNode.getChildren().get(i).getNum()).multiply(bomTreeNode.getChildren().get(i).getPrice()));
                     }
                 }
             }
+            bD.getData().add(z);
+            yD.getData().add(y);
+            fD.getData().add(f);
         }
         List<StackingDiagram> stackingDiagrams = new ArrayList<>();
         stackingDiagrams.add(bD);
@@ -187,8 +191,8 @@ public class StatisticsRestService extends BaseRestService {
                     }
                 }
             }
-        Arrays.sort(barChart1.getData());
-        setData("char1");
+        setData("char1Max", Math.ceil(Utils.Max(barChart1.getData())*2));
+        setData("Char2Max",Utils.Max(barChart2.getData()).multiply(new BigDecimal(1.3)).setScale(0,BigDecimal.ROUND_UP));
         setData("barChar1",barChart1);
         setData("barChar2",barChart2);
         }

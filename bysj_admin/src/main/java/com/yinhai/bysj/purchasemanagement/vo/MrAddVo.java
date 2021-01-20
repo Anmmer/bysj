@@ -1,6 +1,7 @@
 package com.yinhai.bysj.purchasemanagement.vo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
 * (Mr)实体类
@@ -27,6 +28,16 @@ public class MrAddVo implements Serializable {
     private Integer num;
 
     private String isOrder;
+
+    private Date computeDate;
+
+    public Date getComputeDate() {
+        return computeDate;
+    }
+
+    public void setComputeDate(Date computeDate) {
+        this.computeDate = computeDate;
+    }
 
     public String getIsOrder() {
         return isOrder;

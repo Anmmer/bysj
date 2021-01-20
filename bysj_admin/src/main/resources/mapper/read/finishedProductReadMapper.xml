@@ -65,14 +65,14 @@
         FN.ID AS id,
         FN.inputDate AS planDate,
         FN.num AS num,
-        FN.comsumeNum AS consumeNum,
+        FN.consumeNum AS consumeNum,
         W.NAME AS name,
         W.UNIT AS unit
         FROM
         (SELECT P.ID AS id,
         P.PDATE AS inputDate,
         p.NUM AS num,
-        F.NUM AS comsumeNum
+        F.NUM AS consumeNum
         FROM (
         SELECT ID AS ID,
         to_char(INPUT_DATE, 'yyyy-mm') AS PDATE,
@@ -99,7 +99,7 @@
             </if>
 
             <if test="endDate != null">
-                <![CDATA[and  to_date(P.PDATE,'yyyy-mm') < to_date(to_char(#{endDate},'yyyy-mm'),'yyyy-mm') + 1]]>
+                <![CDATA[and  to_date(P.PDATE,'yyyy-mm') < to_date(to_char(#{endDate},'yyyy-mm'),'yyyy-mm')]]>
             </if>
         </where>
         ) FN,WL W WHERE FN.ID = W.ID
@@ -109,7 +109,7 @@
         SELECT
         P.ID AS id,
         p.NUM AS num,
-        F.NUM AS comsumeNum
+        F.NUM AS consumeNum
         FROM (
         SELECT ID AS ID,
         to_char(INPUT_DATE, 'yyyy-mm') AS PDATE,
@@ -136,7 +136,7 @@
             </if>
 
             <if test="endDate != null">
-                <![CDATA[and  to_date(P.PDATE,'yyyy-mm') < to_date(to_char(#{endDate},'yyyy-mm'),'yyyy-mm') + 1]]>
+                <![CDATA[and  to_date(P.PDATE,'yyyy-mm') < to_date(to_char(#{endDate},'yyyy-mm'),'yyyy-mm')]]>
             </if>
         </where>
     </select>

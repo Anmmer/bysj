@@ -179,7 +179,7 @@ export default {
       let values = this.form1.getFieldsValue();
       let planQueryVo = {
         startDate: this.year + "-" + this.month + "-" + "01",
-        endDate: this.year + "-" + this.month + "-" + this.day,
+        endDate: this.year + "-" + (this.month+1) + "-" + "01",
         id: values.id1,
         num: values.num,
         isCompute: "否",
@@ -205,10 +205,10 @@ export default {
       let planQueryVo = this.form.getFieldsValue();
       if (planQueryVo.time == undefined) {
         planQueryVo.startDate = this.year + "-" + this.month + "-" + "01";
-        planQueryVo.endDate = this.year + "-" + this.month + "-" + this.day;
+        planQueryVo.endDate = this.year + "-" + (this.month+1) + "-" + "01";
       } else {
-        planQueryVo.startDate = planQueryVo.time.format("YYYY-MM");
-        planQueryVo.endDate = planQueryVo.time.format("YYYY-MM");
+        planQueryVo.startDate = planQueryVo.time.format("YYYY")+"-"+planQueryVo.time.format("MM");
+        planQueryVo.endDate = planQueryVo.time.format("YYYY")+"-"+(parseInt(planQueryVo.time.format("MM"))+1);
       }
       return planQueryVo;
     },

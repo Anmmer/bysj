@@ -11,6 +11,7 @@ import com.yinhai.ta404.core.restservice.requestbean.PageParam;
 import com.yinhai.ta404.core.service.time.TimeService;
 import com.yinhai.ta404.core.validate.annotation.V;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -130,6 +131,7 @@ public class basicInfoRestService extends BaseRestService{
      */
 
     @PostMapping("updateRawMaterialById")
+    @CacheEvict(value="bomTree",allEntries=true)
     public void updateRawMaterialById(WlEditVo wlEditVo){
         basicInfoWriteService.updateRawMaterialById(wlEditVo);
     }

@@ -4,7 +4,6 @@
     :destroyOnClose="true"
     :closable="false"
     :footer="null"
-    :maskClosable="false"
     width="1250px"
   >
     <div slot="title">
@@ -129,14 +128,23 @@
             @tableChange="fnTableChange"
             @rowDelete="fnRowDelete"
           />
-          <span slot="numTitle">组成量 <ta-icon type="edit" /></span>
+          <span slot="numTitle">组成量 <ta-icon type="edit"/></span>
         </ta-table>
       </ta-form>
     </div>
+    <add-children
+      :show="show"
+      v-if="show"
+      :sid="sid"
+      :id="oneMainBom.id"
+      @hideModal="hideModal"
+      @queryAddBom="queryAddBom"
+    />
   </ta-modal>
 </template>
 <script>
 import $api from "../api";
+import addChildren from "./addChildren.vue";
 const addBomColumns = [
   {
     title: "子件编号",
@@ -207,12 +215,15 @@ const tableColumns = [
 export default {
   name: "editChildren",
   props: ["visible", "oneMainBom"],
+  components: { addChildren },
   data() {
     return {
       addBom: [],
       childrenBom: [],
       tableColumns,
       addBomColumns,
+      sid: "",
+      show: false,
     };
   },
   mounted() {
@@ -221,6 +232,12 @@ export default {
     this.setValue();
   },
   methods: {
+    openModal() {
+      this.show = true;
+    },
+    hideModal() {
+      this.show = false;
+    },
     setValue() {
       this.form1.setFieldsValue({
         id1: this.oneMainBom.id,
@@ -234,17 +251,11 @@ export default {
       if (!obj) {
         if (record.id == this.oneMainBom.id) {
           Modal.info({
-          title: "请选择其他数据",
-        });
+            title: "请选择其他数据",
+          });
         } else {
-          $api.addBomInfo(
-            { mid: this.oneMainBom.id, sid: record.id, num: 0 },
-            (result) => {
-              this.$message.success("添加成功");
-               this.queryAddBom();
-            }
-          );
-          this.queryAddBom;
+          this.sid = record.id;
+          this.openModal();
         }
       } else {
         Modal.info({
@@ -253,17 +264,7 @@ export default {
       }
     },
     handleCancel() {
-      let isNotNull = true;
-      for (let i = 0; i < this.addBom.length; i++) {
-        if (this.addBom[i].num == 0) {
-          this.$message.error("请修改 " + this.addBom[i].name + " 的数量！");
-          isNotNull = false;
-          break;
-        }
-      }
-      if (isNotNull) {
-        this.$emit("hideModal");
-      }
+      this.$emit("hideModal");
     },
     userPageParams() {
       let wlQueryVo = this.form.getFieldsValue();

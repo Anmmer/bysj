@@ -20,6 +20,7 @@ public interface consumptionStatisticsWriteService {
     */
    int addConsumptionStatisticsInfo(List<ConsumptionStatisticsAddVo> list, List<FinishedProductInfoVo> finishedProductInfoVoList);
 
+    int addTestInfo(List<ConsumptionStatisticsAddVo> list, List<FinishedProductInfoVo> finishedProductInfoVoList);
 
 
 }

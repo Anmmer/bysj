@@ -67,7 +67,7 @@ export default {
         let option = {
           tooltip: {},
           visualMap: {
-            max: 50,
+            max: result.data.max,
             inRange: {
               color: [
                 "#313695",
