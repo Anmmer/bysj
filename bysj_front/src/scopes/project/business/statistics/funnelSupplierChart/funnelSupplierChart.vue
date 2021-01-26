@@ -2,7 +2,7 @@
   <div>
     <div style="padding: 0px 5px; background-color: #f0f2f5">
       <ta-card>
-        <span class="top-text">供应商漏斗图</span>
+        <span class="top-text">供应商供货占比漏斗图</span>
       </ta-card>
     </div>
     <div
@@ -56,7 +56,6 @@ export default {
           toolbox: {
             feature: {
               dataView: { show: true, readOnly: true },
-              restore: { show: true },
               saveAsImage: {},
             },
           },

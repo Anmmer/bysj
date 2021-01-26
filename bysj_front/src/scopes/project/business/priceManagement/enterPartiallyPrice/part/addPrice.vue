@@ -45,7 +45,12 @@
       </ta-form>
     </div>
     <div style="width: 620px">
-      <ta-table :columns="tableColumns" :dataSource="wl" :scroll="{ y: 305 }">
+      <ta-table
+        :columns="tableColumns"
+        :dataSource="wl"
+        :scroll="{ y: 305 }"
+        size="middle"
+      >
         <a slot="action" slot-scope="text, record" @click="setValues(record)"
           >选择</a
         ></ta-table
@@ -170,8 +175,8 @@ export default {
             this.$emit("hideModal");
           }
         );
-      }else{
-        this.$message.error("请选择半成品")
+      } else {
+        this.$message.error("请选择半成品");
       }
     },
     userPageParams() {

@@ -4,22 +4,20 @@ import com.alibaba.fastjson.JSONObject;
 import com.yinhai.bysj.basicdata.common.BomTreeNode;
 import com.yinhai.bysj.basicdata.common.BomTreeNodeBuilder;
 import com.yinhai.bysj.basicdata.entity.Bom;
-import com.yinhai.bysj.basicdata.entity.Wl;
 import com.yinhai.bysj.basicdata.service.read.BomReadService;
 import com.yinhai.bysj.basicdata.service.write.BomWriteService;
 import com.yinhai.bysj.basicdata.service.write.basicInfoWriteService;
 import com.yinhai.bysj.basicdata.vo.*;
+import com.yinhai.ta404.core.restservice.BaseRestService;
+import com.yinhai.ta404.core.restservice.annotation.RestService;
 import com.yinhai.ta404.core.service.time.TimeService;
 import com.yinhai.ta404.core.utils.ValidateUtil;
+import com.yinhai.ta404.core.validate.annotation.V;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.web.bind.annotation.*;
-import com.yinhai.ta404.core.restservice.annotation.RestService;
-import com.yinhai.ta404.core.restservice.BaseRestService;
-import com.yinhai.ta404.core.restservice.requestbean.PageParam;
-import com.yinhai.ta404.core.validate.annotation.V;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -54,7 +52,7 @@ public class BomRestService extends BaseRestService {
      * @param bomAddVo
      */
     @PostMapping("addBomInfo")
-    @CacheEvict(value="bomTree",allEntries=true)
+    @CacheEvict(value = "bomTree", allEntries = true)
     public void addBomInfo(@Valid BomAddVo bomAddVo) {
         bomWriteService.addBomInfo(bomAddVo);
     }
@@ -65,7 +63,7 @@ public class BomRestService extends BaseRestService {
      * @param bomInfoVo 主键
      */
     @PostMapping("removeBomBySid")
-    @CacheEvict(value="bomTree",allEntries=true)
+    @CacheEvict(value = "bomTree", allEntries = true)
     public void removeBomById(@Valid BomInfoVo bomInfoVo) {
         if (ValidateUtil.isEmpty(bomInfoVo.getSid())) {
             WlEditVo wlEditVo = new WlEditVo();
@@ -93,7 +91,7 @@ public class BomRestService extends BaseRestService {
      * @param bomEditVo
      */
     @PostMapping("editBomInfo")
-    @CacheEvict(value="bomTree",allEntries=true)
+    @CacheEvict(value = "bomTree", allEntries = true)
     public void editBomInfo(@Valid BomEditVo bomEditVo) {
         bomWriteService.editBomInfo(bomEditVo);
     }
@@ -119,8 +117,8 @@ public class BomRestService extends BaseRestService {
     }
 
     @PostMapping("insertBomBatch")
-    @CacheEvict(value="bomTree",allEntries=true)
-    public void insertBomBatch(String addBom, String id) {
+    @CacheEvict(value = "bomTree", allEntries = true)
+    public void insertBomBatch(@V({"notnull"}) String addBom,@V({"notnull"})  String id) {
         List<Bom> list = JSONObject.parseArray(addBom, Bom.class);
         WlEditVo wlEditVo = new WlEditVo();
         wlEditVo.setId(id);
@@ -131,13 +129,13 @@ public class BomRestService extends BaseRestService {
     }
 
     @PostMapping("queryBomTree")
-    public void queryBomTree(String id){
-        Map<String, BomTreeNode> map= bomReadService.queryBomTreeList();
+    public void queryBomTree(@V({"notnull"}) String id) {
+        Map<String, BomTreeNode> map = bomReadService.queryBomTreeList();
         setData("bomTree", map.get(id));
     }
 
     @PostMapping("queryBomList")
-    public void queryBomList(){
-        setData("bomList",BomTreeNodeBuilder.build(bomReadService.queryBomList()));
+    public void queryBomList() {
+        setData("bomList", BomTreeNodeBuilder.build(bomReadService.queryBomList()));
     }
 }

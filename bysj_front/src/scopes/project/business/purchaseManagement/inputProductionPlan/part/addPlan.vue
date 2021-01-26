@@ -45,7 +45,12 @@
       </ta-form>
     </div>
     <div style="width: 680px">
-      <ta-table :columns="tableColumns" :dataSource="wl" :scroll="{ y: 305 }">
+      <ta-table
+        :columns="tableColumns"
+        :dataSource="wl"
+        :scroll="{ y: 305 }"
+        size="middle"
+      >
         <a slot="action" slot-scope="text, record" @click="setValues(record)"
           >选择</a
         >

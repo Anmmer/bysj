@@ -45,9 +45,8 @@ public class PurchaseOrderWriteServiceImpl extends BaseService implements Purcha
     public int addPurchaseOrderInfo() {
         List<PurchaseOrderInfoVo> purchaseOrderInfoList = purchaseOrderReadMapper.queryMrNUMList();
         List<MrAddVo> mrList = new ArrayList<>();
-        String orderId = Constant.getOrderIdByTime();
-        for(int i = 0;i<purchaseOrderInfoList.size();i++){
-            purchaseOrderInfoList.get(i).setOrderId(orderId);
+        for (int i = 0; i < purchaseOrderInfoList.size(); i++) {
+            purchaseOrderInfoList.get(i).setOrderId(Constant.getOrderIdByTime());
             purchaseOrderInfoList.get(i).setInputDate(getSysDate());
             purchaseOrderInfoList.get(i).setIsDelivered("否");
             MrAddVo mr = new MrAddVo();
@@ -85,7 +84,7 @@ public class PurchaseOrderWriteServiceImpl extends BaseService implements Purcha
     @Override
     public void batchOrderArrival(List<PurchaseOrderEditVo> purchaseOrderEditVoList) {
         List<PurchaseOrder> list = new ArrayList<>();
-        for(int i = 0;i<purchaseOrderEditVoList.size();i++){
+        for (int i = 0; i < purchaseOrderEditVoList.size(); i++) {
             PurchaseOrder purchaseOrder = new PurchaseOrder();
             purchaseOrder.setOrderId(purchaseOrderEditVoList.get(i).getOrderId());
             purchaseOrder.setId(purchaseOrderEditVoList.get(i).getId());

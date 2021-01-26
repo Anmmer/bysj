@@ -34,9 +34,9 @@
       </ta-card>
       <div style="padding: 13.5px 0px; height: 477px">
         <ta-card>
-          <div style="height: 37px; margin-top: 3px; margin-bottom: 5px">
-            <ta-button @click="openModal">录入</ta-button>
-          </div>
+          <ta-button @click="openModal" style="margin-bottom: 5px;"
+            >录入</ta-button
+          >
           <ta-form
             :autoFormCreate="
               (form) => {
@@ -48,7 +48,8 @@
               :columns="tableColumns"
               :dataSource="productPlan"
               :haveSn="true"
-              :scroll="{ y: 305 }"
+              :scroll="{ y: 319 }"
+              size="middle"
             >
               <span slot="isCompute" slot-scope="text">
                 <ta-tag v-if="text == '是'" type="success">是</ta-tag>
@@ -220,7 +221,7 @@ export default {
             num: data.num,
             id: data.id,
             startDate: this.year + "-" + this.month + "-" + "01",
-            endDate: this.year + "-" + (this.month+1) + "-" + "01",
+            endDate: this.year + "-" + (this.month + 1) + "-" + "01",
           },
           (result) => {
             if (result.data.message === 1) {

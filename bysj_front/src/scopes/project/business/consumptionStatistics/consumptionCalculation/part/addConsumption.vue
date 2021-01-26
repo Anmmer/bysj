@@ -5,7 +5,7 @@
     :closable="false"
     :footer="null"
     :maskClosable="false"
-    width="720px"
+    width="730px"
   >
     <div slot="title">
       <span>选取产成品生产计划</span>
@@ -27,6 +27,7 @@
         :dataSource="FP"
         :haveSn="true"
         :scroll="{ y: 305 }"
+        size="middle"
       >
         <span slot="isCompute" slot-scope="text">
           <ta-tag v-if="text == '是'" type="success">是</ta-tag>

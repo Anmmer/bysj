@@ -45,7 +45,12 @@
       </ta-form>
     </div>
     <div style="width: 680px">
-      <ta-table :columns="tableColumns" :dataSource="plan" :scroll="{ y: 305 }">
+      <ta-table
+        :columns="tableColumns"
+        :dataSource="plan"
+        :scroll="{ y: 305 }"
+        size="middle"
+      >
         <a slot="action" slot-scope="text, record" @click="setValues(record)"
           >选择</a
         >
@@ -160,6 +165,9 @@ export default {
     };
   },
   mounted() {
+    this.form.setFieldsMomentValue({
+      time: this.year + "-" + this.month,
+    });
     this.$refs.gridPagerChildren.loadData((data) => {});
   },
   methods: {
@@ -179,7 +187,7 @@ export default {
       let values = this.form1.getFieldsValue();
       let planQueryVo = {
         startDate: this.year + "-" + this.month + "-" + "01",
-        endDate: this.year + "-" + (this.month+1) + "-" + "01",
+        endDate: this.year + "-" + (this.month + 1) + "-" + "01",
         id: values.id1,
         num: values.num,
         isCompute: "否",
@@ -205,10 +213,14 @@ export default {
       let planQueryVo = this.form.getFieldsValue();
       if (planQueryVo.time == undefined) {
         planQueryVo.startDate = this.year + "-" + this.month + "-" + "01";
-        planQueryVo.endDate = this.year + "-" + (this.month+1) + "-" + "01";
+        planQueryVo.endDate = this.year + "-" + (this.month + 1) + "-" + "01";
       } else {
-        planQueryVo.startDate = planQueryVo.time.format("YYYY")+"-"+planQueryVo.time.format("MM");
-        planQueryVo.endDate = planQueryVo.time.format("YYYY")+"-"+(parseInt(planQueryVo.time.format("MM"))+1);
+        planQueryVo.startDate =
+          planQueryVo.time.format("YYYY") + "-" + planQueryVo.time.format("MM");
+        planQueryVo.endDate =
+          planQueryVo.time.format("YYYY") +
+          "-" +
+          (parseInt(planQueryVo.time.format("MM")) + 1);
       }
       return planQueryVo;
     },

@@ -1,5 +1,6 @@
 package com.yinhai.bysj.basicdata.vo;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +15,7 @@ public class WlEditVo implements Serializable {
 
     private static final long serialVersionUID = -89488630018686015L;
             //货品ID
+            @NotBlank(message = "货品ID不能为空")
     private String id;
             //货品名称
     private String name;

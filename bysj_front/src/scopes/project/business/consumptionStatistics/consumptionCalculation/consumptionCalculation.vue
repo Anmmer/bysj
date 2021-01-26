@@ -34,14 +34,15 @@
       </ta-card>
       <div style="padding: 13.5px 0px; height: 477px">
         <ta-card>
-          <div style="height: 37px; margin-top: 3px; margin-bottom: 5px">
-            <ta-button @click="openModal">录入</ta-button>
-          </div>
+          <ta-button @click="openModal" style="margin-bottom: 5px;"
+            >录入</ta-button
+          >
           <ta-table
             :columns="tableColumns"
             :dataSource="consumptionStatistics"
             :haveSn="true"
-            :scroll="{ y: 305 }"
+            :scroll="{ y: 319 }"
+            size="middle"
           >
           </ta-table>
           <ta-pagination

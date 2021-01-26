@@ -1,5 +1,6 @@
 package com.yinhai.bysj.basicdata.vo;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,14 +15,19 @@ public class WlAddVo implements Serializable {
 
     private static final long serialVersionUID = -42303453004928341L;
             //货品名称
+            @NotBlank(message = "名称不能为空")
     private String name;
             //规格
+            @NotBlank(message = "规格不能为空")
     private String standard;
             //货品类别
+            @NotBlank(message = "类别不能为空")
     private String type;
             //单位
+            @NotBlank(message = "单位不能为空")
     private String unit;
             //供应商ID
+            @NotBlank(message = "供应商不能为空")
     private String gysid;
             //价格录入时间
     private Date pricedate;

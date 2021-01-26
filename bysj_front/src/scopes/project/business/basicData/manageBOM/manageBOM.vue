@@ -7,9 +7,9 @@
         <span class="top2-text">管理</span>
       </ta-card>
     </div>
-    <div style="padding: 13.5px; width: 75%; background-color: #f0f2f5">
+    <div style="padding: 13px; width: 75%; background-color: #f0f2f5">
       <ta-card style="height: 60px">
-        <div style="position: relative; top: 3px">
+        <div style="position: relative; top: 3.5px">
           <ta-form
             layout="horizontal"
             :formLayout="true"
@@ -20,27 +20,28 @@
             "
           >
             <ta-form-item label="货品编号" fieldDecoratorId="id" :span="8">
-              <ta-input style="width: 200px" />
+              <ta-input style="width: 200px" maxLength="20" />
             </ta-form-item>
             <ta-form-item label="货品名称" fieldDecoratorId="name" :span="8">
-              <ta-input placeholder="" style="width: 200px" />
+              <ta-input placeholder="" style="width: 200px" maxLength="20" />
             </ta-form-item>
             <ta-form-item :span="8">
               <ta-button @click="queryWLCondition" type="primary"
-                >查询</ta-button
+                ><ta-icon type="search" />查询</ta-button
               >
-              <ta-button @click="resetValue" type="primary">重置</ta-button>
+              <ta-button @click="resetValue" type="primary"><ta-icon type="reload" />重置</ta-button>
             </ta-form-item>
           </ta-form>
         </div>
       </ta-card>
-      <div style="padding: 13.5px 0px; height: 475px">
+      <div style="padding: 13.5px 0px 0.5px 0px;">
         <ta-card>
           <ta-table
             :columns="tableColumns"
             :dataSource="mainBOM"
             :haveSn="true"
-            :scroll="{ y: 348 }"
+            :scroll="{ y: 356 }"
+            size="middle"
           >
             <template slot="action" slot-scope="text, record">
               <a @click="openModal(record)">更改BOM</a>
@@ -79,7 +80,7 @@
         right: 0px;
         top: 52px;
         width: 25%;
-        padding: 14px 13.5px 13px 0px;
+        padding: 13.5px 13.5px 10px 0px;
         background-color: #f0f2f5;
       "
     >
@@ -112,7 +113,7 @@
 </template>
 <script>
 import $api from "./api/index";
-import editChildren from "./part/editChildren";
+import editChildren from "./part/editChildren.vue";
 const tableColumns = [
   {
     title: "科目编号",

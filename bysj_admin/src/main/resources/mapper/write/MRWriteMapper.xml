@@ -6,7 +6,7 @@
     <insert id="insert" parameterType="ArrayList" useGeneratedKeys="false">
         insert all
         <foreach collection="list" item="item">
-            into MR(ID, NAME, UNIT,SID,SNAME,SUNIT,NUM,IS_ORDER,COMPUTE_DATE) values
+            into MR(ID, NAME, UNIT,SID,SNAME,SUNIT,NUM,IS_ORDER,COMPUTE_DATE,PNUM) values
             (
             <if test="null != item.id != ''">
                 #{item.id},
@@ -33,7 +33,10 @@
                 #{item.isOrder},
             </if>
             <if test="null != item.computeDate != ''">
-                #{item.computeDate}
+                #{item.computeDate},
+            </if>
+            <if test="null != item.pnum != ''">
+                #{item.pnum}
             </if>
             )
         </foreach>

@@ -151,6 +151,7 @@ public class PlanRestService extends BaseRestService {
                     mrAddVo.setSunit(bomTreeNode1.getUnit());
                     mrAddVo.setIsOrder("否");
                     mrAddVo.setComputeDate(timeService.getSysDate());
+                    mrAddVo.setPnum(planInfoVo.getNum());
                     list.add(mrAddVo);
                 } else {
                     children = bomTreeNode.getChildren().get(j).getChildren();
@@ -165,6 +166,7 @@ public class PlanRestService extends BaseRestService {
                         mrAddVo.setSunit(children.get(k).getUnit());
                         mrAddVo.setIsOrder("否");
                         mrAddVo.setComputeDate(timeService.getSysDate());
+                        mrAddVo.setPnum(planInfoVo.getNum());
                         list.add(mrAddVo);
                     }
                 }

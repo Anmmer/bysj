@@ -38,7 +38,7 @@ ta404:
         - errorNum: 8
           lockTime: -1
       permit-urls:
-        - "/consumptionStatistics/addTest"
+        - "/bom/editBomInfo"
         #TODO 这里添加项目需要的 “不需登录即可访问的地址”
       login-permit-urls:
         #TODO 这里添加项目需要的 “登录即可访问的地址”

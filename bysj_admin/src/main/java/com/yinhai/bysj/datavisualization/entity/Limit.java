@@ -1,9 +1,12 @@
 package com.yinhai.bysj.datavisualization.entity;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 public class Limit {
+    @NotBlank(message = "开始时间不能为空")
     private Date startDate;
+    @NotBlank(message = "结束时间不能为空")
     private Date endDate;
     private String name;
     private String type;

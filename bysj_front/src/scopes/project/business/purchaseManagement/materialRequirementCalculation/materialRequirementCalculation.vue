@@ -5,16 +5,19 @@
         <span class="top-text">物料需求计算：{{ year }}-{{ month }}</span>
       </ta-card>
     </div>
-    <div style="padding: 13.5px 13.5px 8px 13.5px; width: 100%; background-color: #f0f2f5">
+    <div
+      style="padding: 13.5px 13.5px 8px 13.5px; width: 100%; background-color: #f0f2f5"
+    >
       <ta-card>
-        <div style="height: 37px; margin-top: 3px; margin-bottom: 5px">
-          <ta-button @click="openModal">录入</ta-button>
-        </div>
+        <ta-button @click="openModal" style="margin-bottom: 5px;"
+          >录入</ta-button
+        >
         <ta-table
           :columns="tableColumns"
           :dataSource="MR"
           :haveSn="true"
-          :scroll="{ y: 379 }"
+          :scroll="{ y: 393 }"
+          size="middle"
         >
         </ta-table>
         <ta-pagination
@@ -60,25 +63,25 @@ const tableColumns = [
   {
     title: "单位",
     dataIndex: "unit",
-    width: "10%",
+    width: "9%",
     align: "center",
   },
   {
     title: "计算时间",
     dataIndex: "computeDate",
-    width: "12%",
+    width: "10%",
     align: "center",
   },
   {
     title: "物料编号",
     dataIndex: "sid",
-    width: "15%",
+    width: "13%",
     align: "center",
   },
   {
     title: "物料名称",
     dataIndex: "sname",
-    width: "15%",
+    width: "17%",
     align: "center",
   },
   {
@@ -90,7 +93,7 @@ const tableColumns = [
   {
     title: "物料单位",
     dataIndex: "sunit",
-    width: "10%",
+    width: "9%",
     align: "center",
   },
 ];

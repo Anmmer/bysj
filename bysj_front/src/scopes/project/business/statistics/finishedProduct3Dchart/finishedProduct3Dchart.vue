@@ -6,7 +6,7 @@
         <span class="top1-text">年份：</span>
         <ta-year-picker
           @change="onChange"
-          :defaultValue="moment(2021, 'YYYY')"
+          :defaultValue="moment(year, 'YYYY')"
           style="position:absolute; left:235px;width:115px"
         />
       </ta-card>
@@ -52,7 +52,7 @@ export default {
       day: 0,
     };
   },
-  mounted() {
+  created() {
     let date = new Date();
     this.year = date.getFullYear();
     this.getData();
@@ -66,6 +66,12 @@ export default {
       $api.getProduct3DChart(limit, (result) => {
         let option = {
           tooltip: {},
+          toolbox: {
+            show: true,
+            feature: {        
+              saveAsImage: { show: true },
+            },
+          },
           visualMap: {
             max: result.data.max,
             inRange: {

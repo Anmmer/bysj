@@ -26,10 +26,10 @@
         "
       >
         <ta-form-item label="货品编号" fieldDecoratorId="id" :span="6">
-          <ta-input style="width: 150px" />
+          <ta-input style="width: 150px" maxLength="20" />
         </ta-form-item>
         <ta-form-item label="货品名称" fieldDecoratorId="name" :span="6">
-          <ta-input style="width: 150px" />
+          <ta-input style="width: 150px" maxLength="20" />
         </ta-form-item>
         <ta-form-item :span="5">
           <ta-button @click="queryChildrenCondition" type="primary"
@@ -43,7 +43,8 @@
       <ta-table
         :columns="tableColumns"
         :dataSource="childrenBom"
-        :scroll="{ y: 305 }"
+        :scroll="{ y: 310 }"
+        size="middle"
       >
         <a slot="action" slot-scope="text, record" @click="add(record)"
           >添加</a
@@ -51,7 +52,7 @@
       >
       <ta-pagination
         size="small"
-        style="text-align: right; margin-top: 15px"
+        style="text-align: right; margin-top: 15px;"
         :dataSource.sync="childrenBom"
         :params="userPageParams"
         url="basicInfo/queryWlInfoPage"
@@ -106,6 +107,7 @@
           :columns="addBomColumns"
           :dataSource="addBom"
           :scroll="{ y: 200 }"
+          size="middle"
         >
           <ta-table-edit
             slot="num"

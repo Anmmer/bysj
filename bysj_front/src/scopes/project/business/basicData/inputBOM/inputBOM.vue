@@ -20,19 +20,25 @@
             "
           >
             <ta-form-item label="货品编号" fieldDecoratorId="id" :span="6">
-              <ta-input style="width: 200px" />
+              <ta-input style="width: 200px" maxLength="20" />
             </ta-form-item>
             <ta-form-item label="货品名称" fieldDecoratorId="name" :span="6">
-              <ta-input placeholder="" style="width: 200px" />
+              <ta-input style="width: 200px" maxLength="20" />
             </ta-form-item>
             <ta-form-item label="分类名称" fieldDecoratorId="type" :span="6">
-              <ta-select collectionType="PRODUCTIONTYPE" style="width: 180px"/>
+              <ta-select
+                collectionType="PRODUCTIONTYPE"
+                style="width: 180px"
+                maxLength="20"
+              />
             </ta-form-item>
             <ta-form-item :span="6">
               <ta-button @click="queryWLCondition" type="primary"
-                >查询</ta-button
+                ><ta-icon type="search" />查询</ta-button
               >
-              <ta-button @click="resetValue" type="primary">重置</ta-button>
+              <ta-button @click="resetValue" type="primary"
+                ><ta-icon type="reload" />重置</ta-button
+              >
             </ta-form-item>
           </ta-form>
         </div>
@@ -51,7 +57,8 @@
             :columns="tableColumns"
             :dataSource="mainBOM"
             :haveSn="true"
-            :scroll="{ y: 307.5 }"
+            :scroll="{ y: 314 }"
+            size="middle"
           >
             <a slot="action" slot-scope="text, record" @click="select(record)"
               >选择</a
@@ -183,7 +190,11 @@ export default {
     },
     queryWLCondition() {
       let data = this.form1.getFieldsValue();
-      if (data.id !== undefined || data.name !== undefined || data.type!==undefined) {
+      if (
+        data.id !== undefined ||
+        data.name !== undefined ||
+        data.type !== undefined
+      ) {
         this.$refs.gridPager.loadData((data) => {});
       }
     },

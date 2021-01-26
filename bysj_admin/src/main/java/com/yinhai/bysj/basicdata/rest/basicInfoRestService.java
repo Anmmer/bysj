@@ -77,7 +77,7 @@ public class basicInfoRestService extends BaseRestService{
 
     /**
      *  录入价格
-     * @Param: [wlEditVo]
+     *
      * @Return: void
      */
 

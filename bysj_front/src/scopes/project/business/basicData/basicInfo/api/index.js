@@ -33,9 +33,9 @@ export default {
       { successCallback: (data) => callBack(data) }
     );
   },
-  queryAllWL(form, data, callBack) {
+  queryAllWL(data, callBack) {
     Base.submit(
-      form,
+      null,
       { url: BASE_URL + "queryWlInfoList", data: data, autoValid: true },
       { successCallback: (data) => callBack(data) }
     );

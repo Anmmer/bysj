@@ -34,8 +34,8 @@ public class StatisticsRestService extends BaseRestService {
         List<Total> materialTotal = statisticsService.queryMaterialConsum(limit);
         limit.setType("辅助材料");
         List<Total> fTotal = statisticsService.queryMaterialConsum(limit);
-        BarChart barchartY = new BarChart("原材料", "bar");
-        BarChart barChartF = new BarChart("辅助材料", "bar");
+        BarChart barchartY = new BarChart("原材料", "line");
+        BarChart barChartF = new BarChart("辅助材料", "line");
         for (Total total : materialTotal) {
             barchartY.getData()[Integer.valueOf(total.getMonth())-1] = total.getNum();
         }

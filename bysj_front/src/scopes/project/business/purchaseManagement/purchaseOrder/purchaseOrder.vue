@@ -5,16 +5,19 @@
         <span class="top-text">采购订单：{{ year }}-{{ month }}</span>
       </ta-card>
     </div>
-    <div style="padding: 13.5px 13.5px 8px 13.5px; width: 100%; background-color: #f0f2f5">
+    <div
+      style="padding: 13.5px 13.5px 8px 13.5px; width: 100%; background-color: #f0f2f5"
+    >
       <ta-card>
-        <div style="height: 37px; margin-top: 3px; margin-bottom: 5px">
-          <ta-button @click="openModal">生成</ta-button>
-        </div>
+        <ta-button @click="openModal" style="margin-bottom: 5px;"
+          >生成</ta-button
+        >
         <ta-table
           :columns="tableColumns"
           :dataSource="Order"
           :haveSn="true"
-          :scroll="{ y: 379 }"
+          :scroll="{ y: 393 }"
+          size="middle"
         >
         </ta-table>
         <ta-pagination
@@ -76,12 +79,11 @@ const tableColumns = [
     align: "center",
   },
   {
-      title:"供应商",
-      dataIndex:"gys",
-      width:"20%",
-      align:"center"
-  }
-  
+    title: "供应商",
+    dataIndex: "gys",
+    width: "20%",
+    align: "center",
+  },
 ];
 export default {
   name: "purchaseOrder",
@@ -107,8 +109,10 @@ export default {
       this.year = date.getFullYear();
       this.month = date.getMonth() + 1;
       this.day = d.getDate();
-      purchaseOrderQueryVo.startDate = this.year + "-" + this.month + "-" + "01";
-      purchaseOrderQueryVo.endDate = this.year + "-" + this.month + "-" + this.day;
+      purchaseOrderQueryVo.startDate =
+        this.year + "-" + this.month + "-" + "01";
+      purchaseOrderQueryVo.endDate =
+        this.year + "-" + this.month + "-" + this.day;
       //这里返回的对象是分页要一同提交的参数
       return purchaseOrderQueryVo;
     },

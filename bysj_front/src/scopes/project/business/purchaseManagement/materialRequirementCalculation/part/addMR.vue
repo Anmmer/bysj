@@ -27,6 +27,7 @@
         :dataSource="plan"
         :haveSn="true"
         :scroll="{ y: 305 }"
+        size="middle"
       >
         <span slot="isCompute" slot-scope="text">
           <ta-tag v-if="text == '是'" type="success">是</ta-tag>

@@ -10,12 +10,12 @@ const faceConfig = () => {
     // 2. 前端项目打war包后，war包的名称
     warName: 'ta404',
     // 基础路径,打包发布的时候修改为后端发布服务地址
-    basePath: 'http://127.0.0.1:8082/ta404',
+    basePath: 'http://127.0.0.1:8083/ta404',
     // basePath: 'http://114.116.152.220:8081/ta404',
     // 开发模式mockServer服务地址
     mockServer: 'http://192.168.17.18:10000/mock/5b68f9b10b81e375f173f0ed',
     // 开发模式后端服务地址
-    devServer: 'http://localhost:8082/ta404',
+    devServer: 'http://localhost:8083/ta404',
     // devServer: 'http://www.wangbs.work:80',
     // 项目文件打包寻址地址
     docModule: ['corePage/*'],

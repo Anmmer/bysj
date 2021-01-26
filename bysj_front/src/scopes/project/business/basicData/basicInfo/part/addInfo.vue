@@ -5,7 +5,7 @@
     :closable="true"
     @close="onClose"
     :visible="visible"
-    width="450"
+    width="400"
   >
     <ta-form
       :autoFormCreate="
@@ -19,34 +19,30 @@
         fieldDecoratorId="name"
         :require="{ message: '请输入!' }"
       >
-        <ta-input style="width: 200px" />
+        <ta-input style="width: 200px" maxLength="20" />
       </ta-form-item>
       <ta-form-item
-        style="margin-top: 20px"
         label="规格"
         fieldDecoratorId="standard"
         :require="{ message: '请输入!' }"
       >
-        <ta-input style="width: 200px" />
+        <ta-input style="width: 200px" maxLength="20" />
       </ta-form-item>
       <ta-form-item
-        style="margin-top: 20px"
         label="货品类别"
         fieldDecoratorId="type"
         :require="{ message: '请输入!' }"
       >
-        <ta-input style="width: 200px" />
+        <ta-input style="width: 200px" maxLength="20" />
       </ta-form-item>
       <ta-form-item
-        style="margin-top: 20px"
         label="单位"
         fieldDecoratorId="unit"
         :require="{ message: '请输入!' }"
       >
-        <ta-input style="width: 200px" />
+        <ta-input style="width: 200px" maxLength="20" />
       </ta-form-item>
       <ta-form-item
-        style="margin-top: 20px"
         label="供应商"
         fieldDecoratorId="gysid"
         :require="{ message: '请选择!' }"

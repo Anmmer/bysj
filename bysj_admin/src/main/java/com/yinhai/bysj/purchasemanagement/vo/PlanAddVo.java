@@ -1,5 +1,6 @@
 package com.yinhai.bysj.purchasemanagement.vo;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -13,8 +14,10 @@ public class PlanAddVo implements Serializable {
 
     private static final long serialVersionUID = 689305355359913982L;
     //品号
+    @NotBlank(message = "品号不能为空")
     private String id;
     //数量
+    @NotBlank(message = "数量不能为空")
     private Integer num;
     //录入时间
     private Date inputDate;

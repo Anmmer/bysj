@@ -19,10 +19,10 @@
             "
           >
             <ta-form-item label="货品编号" fieldDecoratorId="id" :span="6">
-              <ta-input style="width: 200px" />
+              <ta-input style="width: 200px" maxLength="20" />
             </ta-form-item>
             <ta-form-item label="货品名称" fieldDecoratorId="name" :span="6">
-              <ta-input placeholder="" style="width: 200px" />
+              <ta-input placeholder="" style="width: 200px" maxLength="20" />
             </ta-form-item>
             <ta-form-item label="供货商" fieldDecoratorId="gysid" :span="6">
               <ta-select style="width: 200px">
@@ -33,9 +33,11 @@
             </ta-form-item>
             <ta-form-item :span="6">
               <ta-button @click="queryWLCondition" type="primary"
-                >查询</ta-button
+                ><ta-icon type="search" />查询</ta-button
               >
-              <ta-button @click="resetValue" type="primary">重置</ta-button>
+              <ta-button @click="resetValue" type="primary"
+                ><ta-icon type="reload" />重置</ta-button
+              >
             </ta-form-item>
           </ta-form>
         </div>
@@ -44,36 +46,42 @@
         <ta-card>
           <ta-button
             @click="showDrawer"
-            style="margin-bottom: 10px;margin-top:3px"
-            >新增</ta-button
+            style="margin-bottom: 5px;"
+            type="primary"
+            ><ta-icon type="plus" />新增</ta-button
           >
-          <div style="height: 359px; overflow: auto">
-            <ta-table
-              :columns="tableColumns"
-              :dataSource="wl"
-              :haveSn="true"
-              :scroll="{ y: 300 }"
-            >
-              <template slot="action" slot-scope="text, record">
-                <a @click="setId(record.id)">修改</a>
-                <ta-divider type="vertical" />
-                <ta-popconfirm
-                  title="是否确认删除?"
-                  @confirm="RowDelete(record.id)"
-                  cancelText="取消"
-                  okText="删除"
-                  okType="danger"
-                >
-                  <ta-icon
-                    slot="icon"
-                    type="question-circle-o"
-                    style="color: red"
-                  />
-                  <a>删除</a>
-                </ta-popconfirm>
-              </template>
-            </ta-table>
-          </div>
+          <ta-button
+            style="margin-bottom: 5px;"
+            @click="exportData"
+          >
+            导出数据
+          </ta-button>
+          <ta-table
+            :columns="tableColumns"
+            :dataSource="wl"
+            :haveSn="true"
+            :scroll="{ y: 319 }"
+            size="middle"
+          >
+            <template slot="action" slot-scope="text, record">
+              <a @click="setId(record.id)">修改</a>
+              <ta-divider type="vertical" />
+              <ta-popconfirm
+                title="是否确认删除?"
+                @confirm="RowDelete(record.id)"
+                cancelText="取消"
+                okText="删除"
+                okType="danger"
+              >
+                <ta-icon
+                  slot="icon"
+                  type="question-circle-o"
+                  style="color: red"
+                />
+                <a>删除</a>
+              </ta-popconfirm>
+            </template>
+          </ta-table>
           <div>
             <ta-pagination
               style="text-align: right; margin-top: 10px"
@@ -107,37 +115,37 @@ const tableColumns = [
   {
     title: "货品编号",
     dataIndex: "id",
-    align: "center",
+    // align: "center",
     width: "150px",
   },
   {
     dataIndex: "name",
-    align: "center",
+    // align: "center",
     width: "170px",
     title: "货品名称",
   },
   {
     dataIndex: "standard",
-    align: "center",
+    // align: "center",
     width: "180px",
     title: "规格",
   },
   {
     dataIndex: "type",
-    align: "center",
+    // align: "center",
     width: "150px",
     title: "货品类别",
   },
   {
     dataIndex: "unit",
-    align: "center",
+    // align: "center",
     width: "110px",
     title: "单位",
   },
   {
     dataIndex: "gys",
-    align: "center",
-    width: "250px",
+    // align: "center",
+    width: "200px",
     title: "供应商",
   },
   {
@@ -208,7 +216,44 @@ export default {
       });
     },
     queryWLCondition() {
-      this.$refs.gridPager.loadData((data) => {});
+      let values = this.form1.getFieldsValue();
+      if (
+        values.id !== undefined ||
+        values.name !== undefined ||
+        values.gysid != undefined
+      ) {
+        this.$refs.gridPager.loadData((data) => {});
+      }
+    },
+    exportData() {
+      $api.queryAllWL(null, (result) => {
+        const data = {
+          fileName: "物料基础信息", // 文件名
+          // 工作表List
+          sheets: [
+            {
+              // 工作表名字，默认为Sheet加上该工作表在List中的index
+              name: "物料信息",
+              column: {
+                // 简单表头设置如下
+                complex: false,
+                // 简单表头的列索引
+                columns: [
+                  { header: "货品编号", key: "id", width: 20 },
+                  { header: "货品名称", key: "name", width: 30 },
+                  { header: "规格", key: "standard", width: 20 },
+                  { header: "货品类别", key: "type", width: 20 },
+                  { header: "单位", key: "unit", width: 20 },
+                  { header: "供应商", key: "gys", width: 40 },
+                ],
+              },
+              // 表格数据
+              rows: result.data.wlList,
+            },
+          ],
+        };
+        this.Base.generateExcel(data);
+      });
     },
   },
 };

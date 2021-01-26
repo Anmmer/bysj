@@ -13,9 +13,9 @@
       "
     >
       <ta-card>
-        <div style="height: 37px; margin-top: 3px; margin-bottom: 5px">
-          <ta-button @click="batchOrderArrival">批量到货</ta-button>
-        </div>
+        <ta-button @click="batchOrderArrival" style="margin-bottom: 5px;"
+          >批量到货</ta-button
+        >
         <ta-table
           ref="table"
           :rowSelection="rowSelection"
@@ -23,7 +23,8 @@
           :columns="tableColumns"
           :dataSource="Order"
           :haveSn="false"
-          :scroll="{ y: 379 }"
+          :scroll="{ y: 393 }"
+          size="middle"
         >
           <span slot="isDelivered" slot-scope="text">
             <ta-tag v-if="text == '是'" type="success">是</ta-tag>

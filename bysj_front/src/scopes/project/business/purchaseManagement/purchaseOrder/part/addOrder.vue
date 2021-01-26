@@ -5,7 +5,7 @@
     :closable="false"
     :footer="null"
     :maskClosable="false"
-    width="900px"
+    width="910px"
   >
     <div slot="title">
       <span>需求计划</span>
@@ -27,6 +27,7 @@
         :dataSource="MR"
         :haveSn="false"
         :scroll="{ y: 305 }"
+        size="middle"
       >
         <span slot="isOrder" slot-scope="text">
           <ta-tag v-if="text == '是'" type="success">是</ta-tag>

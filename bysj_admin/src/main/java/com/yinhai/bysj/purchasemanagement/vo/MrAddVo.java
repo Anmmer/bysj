@@ -31,6 +31,16 @@ public class MrAddVo implements Serializable {
 
     private Date computeDate;
 
+    private Integer pnum;
+
+    public Integer getPnum() {
+        return pnum;
+    }
+
+    public void setPnum(Integer pnum) {
+        this.pnum = pnum;
+    }
+
     public Date getComputeDate() {
         return computeDate;
     }

@@ -34,9 +34,9 @@
       </ta-card>
       <div style="padding: 13.5px 0px; height: 477px">
         <ta-card>
-          <div style="height: 37px; margin-top: 3px; margin-bottom: 5px">
-            <ta-button @click="openModal">录入</ta-button>
-          </div>
+          <ta-button @click="openModal" style="margin-bottom: 5px;"
+            >录入</ta-button
+          >
           <ta-form
             :autoFormCreate="
               (form) => {
@@ -48,7 +48,8 @@
               :columns="tableColumns"
               :dataSource="rawMaterial"
               :haveSn="true"
-              :scroll="{ y: 305 }"
+              :scroll="{ y: 319 }"
+              size="middle"
             >
               <ta-table-edit
                 slot="price"
@@ -71,7 +72,7 @@
                 @tableChange="fnTableChange"
                 @rowDelete="fnRowDelete"
               />
-              <span slot="price">单价 <ta-icon type="edit" /></span>
+              <span slot="price">单价 <ta-icon type="edit"/></span>
             </ta-table>
           </ta-form>
           <ta-pagination
@@ -81,11 +82,7 @@
             url="basicInfo/queryRawListPage"
             ref="gridPager"
           />
-          <add-price
-            :visible="visible"
-            v-if="visible"
-            @hideModal="hideModal"
-          />
+          <add-price :visible="visible" v-if="visible" @hideModal="hideModal" />
         </ta-card>
       </div>
     </div>
@@ -204,7 +201,7 @@ export default {
     },
     fnRowDelete(deleteId) {
       // 返回主键id，即rowKey的值
-      $api.removeRawPrice({ id: deleteId,isputprice:"否" }, (result) => {
+      $api.removeRawPrice({ id: deleteId, isputprice: "否" }, (result) => {
         this.$message.success("删除成功");
         this.rawMaterial = this.rawMaterial.filter(
           (item) => item.id !== deleteId
