@@ -2,7 +2,7 @@
   <div>
     <div style="padding: 0px 5px; background-color: #f0f2f5">
       <ta-card>
-        <span class="top-text">物料消耗数量条形图</span>
+        <span class="top-text">物料消耗数量折线图</span>
         <span class="top1-text">年份：</span>
         <ta-year-picker
           @change="onChange"

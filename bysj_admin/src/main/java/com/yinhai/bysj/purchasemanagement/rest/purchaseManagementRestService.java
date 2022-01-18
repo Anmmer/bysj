@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 /**
 * 供应商(Gys)表控制层
 *
-* @author default
+* @author changan
 * @since 2020-11-26 14:17:27
 */
 @Validated

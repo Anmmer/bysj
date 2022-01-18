@@ -1,8 +1,6 @@
 package com.yinhai.bysj.basicdata.common;
 
 
-import org.springframework.context.annotation.Bean;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;

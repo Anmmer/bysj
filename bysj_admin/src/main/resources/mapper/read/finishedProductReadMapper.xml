@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yinhai.bysj.consumptionstatistics.mapper.read.finishedProductReadMapper">
-
     <resultMap type="com.yinhai.bysj.consumptionstatistics.entity.FinishedProduct" id="FinishedProductMap">
         <result property="id" column="ID" jdbcType="VARCHAR"/>
         <result property="num" column="NUM" jdbcType="INTEGER"/>
@@ -25,16 +24,16 @@
 
     <!--查询指定行数据-->
     <select id="queryList" resultType="com.yinhai.bysj.consumptionstatistics.vo.FinishedProductInfoVo">
-        select
-        f.ID as id,
-        w.NAME as name,
-        w.UNIT as unit,
-        f.NUM as num,
-        f.INPUT_DATE as inputDate,
-        f.IS_COMPUTE as isCompute,
-        f.COMPUTE_DATE as computeDate,
-        f.INDE as inde
-        from FINISHED_PRODUCT f,WL w
+        select f.ID           as id,
+               w.NAME         as name,
+               w.UNIT         as unit,
+               f.NUM          as num,
+               f.INPUT_DATE   as inputDate,
+               f.IS_COMPUTE   as isCompute,
+               f.COMPUTE_DATE as computeDate,
+               f.INDE         as inde
+        from FINISHED_PRODUCT f,
+             WL w
         <where>
             f.ID = w.ID
 
@@ -45,99 +44,112 @@
             <if test="name != null and name != ''">
                 and w.NAME = #{name}
             </if>
-            <if test="isCompute!=null and isCompute!='' ">
-                and f.IS_COMPUTE=#{isCompute}
+            <if test="isCompute != null and isCompute != ''">
+                and f.IS_COMPUTE = #{isCompute}
             </if>
 
             <if test="startDate != null">
-                <![CDATA[and f.INPUT_DATE >= to_date( to_char(#{startDate},'yyyy-mm-dd'),'yyyy-mm-dd')]]>
+                <![CDATA[
+                and f.INPUT_DATE >= to_date(to_char(#{startDate}, 'yyyy-mm-dd'), 'yyyy-mm-dd')
+                ]]>
             </if>
 
             <if test="endDate != null">
-                <![CDATA[and  f.INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd') + 1]]>
+                <![CDATA[
+                and  f.INPUT_DATE < to_date(to_char(#{endDate}, 'yyyy-mm-dd'), 'yyyy-mm-dd') + 1
+                ]]>
             </if>
-
         </where>
     </select>
 
     <select id="queryNumList" resultType="com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo">
-        SELECT
-        FN.ID AS id,
-        FN.inputDate AS planDate,
-        FN.num AS num,
-        FN.consumeNum AS consumeNum,
-        W.NAME AS name,
-        W.UNIT AS unit
-        FROM
-        (SELECT P.ID AS id,
-        P.PDATE AS inputDate,
-        p.NUM AS num,
-        F.NUM AS consumeNum
-        FROM (
-        SELECT ID AS ID,
-        to_char(INPUT_DATE, 'yyyy-mm') AS PDATE,
-        SUM(NUM) AS NUM
-        FROM PLAN
-        GROUP BY ID,
-        to_char(INPUT_DATE, 'yyyy-mm')
-        ) P
-        LEFT JOIN (
-        SELECT ID AS ID,
-        to_char(INPUT_DATE, 'yyyy-mm') AS FDATE,
-        SUM(NUM) AS NUM
-        FROM FINISHED_PRODUCT
-        GROUP BY ID,
-        to_char(INPUT_DATE, 'yyyy-mm')
-        ) F ON P.ID = F.ID AND P.PDATE = F.FDATE
+        SELECT FN.ID         AS id,
+               FN.inputDate  AS planDate,
+               FN.num        AS num,
+               FN.consumeNum AS consumeNum,
+               W.NAME        AS name,
+               W.UNIT        AS unit
+                FROM
+                (SELECT P.ID    AS id,
+                        P.PDATE AS inputDate,
+                        p.NUM   AS num,
+                        F.NUM   AS consumeNum
+                 FROM (
+                              SELECT ID                             AS ID,
+                                     to_char(INPUT_DATE, 'yyyy-mm') AS PDATE,
+                                     SUM(NUM)                       AS NUM
+                              FROM PLAN
+                              GROUP BY ID,
+                                       to_char(INPUT_DATE, 'yyyy-mm')
+                              ) P
+                              LEFT JOIN (
+                         SELECT ID                             AS ID,
+                                to_char(INPUT_DATE, 'yyyy-mm') AS FDATE,
+                                SUM(NUM)                       AS NUM
+                         FROM FINISHED_PRODUCT
+                         GROUP BY ID,
+                                  to_char(INPUT_DATE, 'yyyy-mm')
+                         ) F ON P.ID = F.ID AND P.PDATE = F.FDATE
         <where>
             <if test="id != null and id != ''">
                 and P.ID = #{id}
             </if>
 
             <if test="startDate != null">
-                <![CDATA[and to_date(P.PDATE,'yyyy-mm') >= to_date( to_char(#{startDate},'yyyy-mm'),'yyyy-mm')]]>
+                <![CDATA[
+                and to_date(P.PDATE, 'yyyy-mm') >= to_date(to_char(#{startDate}, 'yyyy-mm'), 'yyyy-mm')
+                ]]>
             </if>
 
             <if test="endDate != null">
-                <![CDATA[and  to_date(P.PDATE,'yyyy-mm') < to_date(to_char(#{endDate},'yyyy-mm'),'yyyy-mm')]]>
+                <![CDATA[
+                and  to_date(P.PDATE, 'yyyy-mm') < to_date(to_char(#{endDate}, 'yyyy-mm'), 'yyyy-mm')
+                ]]>
             </if>
         </where>
-        ) FN,WL W WHERE FN.ID = W.ID
+        ) FN,
+                WL W
+                WHERE FN.ID = W.ID
     </select>
 
-    <select id="queryNumByInde" resultType="com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo">
-        SELECT
-        P.ID AS id,
-        p.NUM AS num,
-        F.NUM AS consumeNum
+    <select id="querySunNumById" resultType="com.yinhai.bysj.purchasemanagement.vo.PlanInfoVo">
+        SELECT P.ID  AS id,
+               p.NUM AS num,
+               F.NUM AS consumeNum
         FROM (
-        SELECT ID AS ID,
-        to_char(INPUT_DATE, 'yyyy-mm') AS PDATE,
-        SUM(NUM) AS NUM
-        FROM PLAN
-        GROUP BY ID,
-        to_char(INPUT_DATE, 'yyyy-mm')
-        ) P
-        LEFT JOIN (
-        SELECT ID AS ID,
-        to_char(INPUT_DATE, 'yyyy-mm') AS FDATE,
-        SUM(NUM) AS NUM
-        FROM FINISHED_PRODUCT
-        GROUP BY ID,
-        to_char(INPUT_DATE, 'yyyy-mm')
-        ) F ON P.ID = F.ID AND P.PDATE = F.FDATE
+                     SELECT ID                             AS ID,
+                            to_char(INPUT_DATE, 'yyyy-mm') AS PDATE,
+                            SUM(NUM)                       AS NUM
+                     FROM PLAN
+                     GROUP BY ID,
+                              to_char(INPUT_DATE, 'yyyy-mm')
+                     ) P
+                     LEFT JOIN (
+                SELECT ID                             AS ID,
+                       to_char(INPUT_DATE, 'yyyy-mm') AS FDATE,
+                       SUM(NUM)                       AS NUM
+                FROM FINISHED_PRODUCT
+                GROUP BY ID,
+                         to_char(INPUT_DATE, 'yyyy-mm')
+                ) F ON P.ID = F.ID AND P.PDATE = F.FDATE
         <where>
             <if test="id != null and id != ''">
-                 P.ID = #{id}
+                P.ID = #{id}
             </if>
 
             <if test="startDate != null">
-                <![CDATA[and to_date(P.PDATE,'yyyy-mm') >= to_date( to_char(#{startDate},'yyyy-mm'),'yyyy-mm')]]>
+                <![CDATA[
+                and to_date(P.PDATE, 'yyyy-mm') >= to_date(to_char(#{startDate}, 'yyyy-mm'), 'yyyy-mm')
+                ]]>
             </if>
 
             <if test="endDate != null">
-                <![CDATA[and  to_date(P.PDATE,'yyyy-mm') < to_date(to_char(#{endDate},'yyyy-mm'),'yyyy-mm')]]>
+                <![CDATA[
+                and  to_date(P.PDATE, 'yyyy-mm') < to_date(to_char(#{endDate}, 'yyyy-mm'), 'yyyy-mm')
+                ]]>
             </if>
         </where>
     </select>
+
+
 </mapper>

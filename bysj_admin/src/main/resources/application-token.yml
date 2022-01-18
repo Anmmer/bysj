@@ -5,7 +5,7 @@ ta404:
         # 最大并发连接数， -1 为不限制
         max-connections: -1
         # 同一账号允许最多登录数，-1为不限制
-        max-single-account-connections: -1
+        max-single-account-connections: 1
         # 当同一账号允许登录数达上线时，是否覆盖之前的登录状态(之前的登录者退出)
         cover-connection: true
         # 每次访问是否刷新 token失效时间

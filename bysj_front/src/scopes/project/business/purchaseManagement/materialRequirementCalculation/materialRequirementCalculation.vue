@@ -1,42 +1,32 @@
 <template>
   <div>
-    <div style="padding: 0px 5px; background-color: #f0f2f5">
-      <ta-card>
-        <span class="top-text">物料需求计算：{{ year }}-{{ month }}</span>
-      </ta-card>
-    </div>
-    <div
-      style="padding: 13.5px 13.5px 8px 13.5px; width: 100%; background-color: #f0f2f5"
-    >
-      <ta-card>
-        <ta-button @click="openModal" style="margin-bottom: 5px;"
-          >录入</ta-button
-        >
-        <ta-table
-          :columns="tableColumns"
-          :dataSource="MR"
-          :haveSn="true"
-          :scroll="{ y: 393 }"
-          size="middle"
-        >
-        </ta-table>
-        <ta-pagination
-          style="text-align: right; margin-top: 10px"
-          :dataSource.sync="MR"
-          :params="userPageParams"
-          url="plan/queryMRPage"
-          ref="gridPager"
-        />
-        <add-MR
-          :visible="visible"
-          :year="year"
-          :month="month"
-          :day="day"
-          v-if="visible"
-          @hideModal="hideModal"
-        />
-      </ta-card>
-    </div>
+    <ta-card>
+      <span slot="title">物料需求计算：{{ year }}-{{ month }}</span>
+      <ta-button @click="openModal" style="margin-bottom: 5px;" type="primary">
+        <ta-icon type="plus" />录入
+      </ta-button>
+      <ta-table
+        :columns="tableColumns"
+        :dataSource="MR"
+        :scroll="{ y: 426 }"
+        size="middle"
+      ></ta-table>
+      <ta-pagination
+        style="text-align: right; margin-top: 10px"
+        :dataSource.sync="MR"
+        :params="userPageParams"
+        url="plan/queryMRPage"
+        ref="gridPager"
+      />
+      <add-MR
+        :visible="visible"
+        :year="year"
+        :month="month"
+        :day="day"
+        v-if="visible"
+        @hideModal="hideModal"
+      />
+    </ta-card>
   </div>
 </template>
 <script>
@@ -46,7 +36,6 @@ const tableColumns = [
     title: "产品品号",
     dataIndex: "id",
     width: "8%",
-    align: "center",
   },
   {
     title: "产品品名",

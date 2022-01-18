@@ -1,23 +1,24 @@
 <template>
-  <ta-button>{{buttonKey}}</ta-button>
+  <ta-input id="input" />
 </template>
 
 <script>
+let input = document.querySelector("#input");
+input.oninput = function () {
+  console.log(this.value);
+};
 export default {
-  name: 'partComponent',
+  name: "partComponent",
   props: {
     buttonKey: {
       type: String,
     },
   },
-  data () {
-    return {
-
-    }
+  data() {
+    return {};
   },
-}
+};
 </script>
 
 <style scoped type="text/less">
-
 </style>

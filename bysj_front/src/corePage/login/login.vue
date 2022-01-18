@@ -51,7 +51,7 @@
     <!--    </article>-->
 
     <footer>
-      <span>Ta+3 404开发框架</span>
+      <span></span>
     </footer>
   </div>
 

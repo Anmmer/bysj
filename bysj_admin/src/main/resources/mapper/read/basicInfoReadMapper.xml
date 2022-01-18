@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yinhai.bysj.basicdata.mapper.read.basicInfoReadMapper">
-
     <resultMap type="com.yinhai.bysj.basicdata.entity.Wl" id="WlMap">
         <result property="id" column="ID" jdbcType="VARCHAR"/>
         <result property="name" column="NAME" jdbcType="VARCHAR"/>
@@ -18,21 +17,27 @@
 
     <!--查询单个-->
     <select id="queryById" resultType="com.yinhai.bysj.basicdata.vo.WlInfoVo">
-        select ID as id,
-        NAME as name,
-        STANDARD as standard,
-        TYPE as type,
-        UNIT as unit,
-        GYSID as gysid
+        select ID       as id,
+               NAME     as name,
+               STANDARD as standard,
+               TYPE     as type,
+               UNIT     as unit,
+               GYSID    as gysid
         from WL
         where ID = #{id}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryList" resultType="com.yinhai.bysj.basicdata.vo.WlInfoVo">
-        select
-        w.ID as id, w.NAME as name, w.STANDARD as standard, w.TYPE as type, w.UNIT as unit, g.GYS as gys,w.ISPUTBOM as isputbom
-        from WL w,GYS g
+        select w.ID       as id,
+               w.NAME     as name,
+               w.STANDARD as standard,
+               w.TYPE     as type,
+               w.UNIT     as unit,
+               g.GYS      as gys,
+               w.ISPUTBOM as isputbom
+        from WL w,
+             GYS g
         <where>
             w.GYSID = g.GYSID
             <if test="id != null and id != ''">
@@ -64,7 +69,6 @@
             <if test="isputbom != null and isputbom != ''">
                 and w.ISPUTBOM = #{isputbom}
             </if>
-
         </where>
     </select>
 
@@ -75,15 +79,15 @@
     </select>
 
     <select id="queryMainList" resultType="com.yinhai.bysj.basicdata.vo.WlInfoVo">
-        select ID as id,
-        NAME as name,
-        TYPE as type,
-        UNIT as unit,
-        ISPUTBOM as isputbom,
-        BOMDATE as bomdate
+        select ID       as id,
+               NAME     as name,
+               TYPE     as type,
+               UNIT     as unit,
+               ISPUTBOM as isputbom,
+               BOMDATE  as bomdate
         from WL
         <where>
-            (TYPE='自制半成品' or TYPE='产成品')
+            (TYPE = '自制半成品' or TYPE = '产成品')
 
             <if test="id != null and id != ''">
                 and ID = #{id}
@@ -93,34 +97,37 @@
                 and NAME = #{name}
             </if>
 
-            <if test="isputbom !=null and isputbom !=''">
+            <if test="isputbom != null and isputbom != ''">
                 and ISPUTBOM = #{isputbom}
             </if>
-            <if test="type !=null and type !=''">
+            <if test="type != null and type != ''">
                 and TYPE = #{type}
             </if>
         </where>
     </select>
 
     <select id="queryRawList" resultType="com.yinhai.bysj.basicdata.vo.WlInfoVo">
-        select
-        ID as id, NAME as name, TYPE as type, UNIT as unit,PRICEDATE as pricedate,PRICE as price
+        select ID        as id,
+               NAME      as name,
+               TYPE      as type,
+               UNIT      as unit,
+               PRICEDATE as pricedate,
+               PRICE     as price
         from Wl
         <where>
+            1 = 1
             <if test="id != null and id != ''">
                 and ID = #{id}
             </if>
             <if test="name != null and name != ''">
                 and NAME = #{name}
             </if>
-            <if test="type !=null and type!=''">
+            <if test="type != null and type != ''">
                 and TYPE = #{type}
             </if>
-            <if test="isputprice !=null and isputprice!=''">
+            <if test="isputprice != null and isputprice != ''">
                 and ISPUTPRICE = #{isputprice}
             </if>
-
         </where>
     </select>
-
 </mapper>

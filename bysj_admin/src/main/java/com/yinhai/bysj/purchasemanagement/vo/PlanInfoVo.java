@@ -17,7 +17,7 @@ public class PlanInfoVo implements Serializable {
     private String id;
             //数量
     private Integer num;
-            //已生成数量
+            //已生产数量
     private Integer consumeNum;
             //录入时间
     private Date inputDate;

@@ -1,95 +1,92 @@
 <template>
   <div>
-    <div style="padding: 0px 5px; background-color: #f0f2f5">
-      <ta-card>
-        <span class="top-text">产品生产计划：{{ year }}-{{ month }}</span>
-      </ta-card>
-    </div>
-    <div style="padding: 13.5px 13.5px; width: 100%; background-color: #f0f2f5">
-      <ta-card style="height: 60px">
-        <div style="position: relative; top: 3px">
-          <ta-form
-            layout="horizontal"
-            :formLayout="true"
-            :autoFormCreate="
+    <ta-card>
+      <span slot="title">产品生产计划：{{ year }}-{{ month }}</span>
+      <ta-form
+        style="margin-top:10px"
+        layout="horizontal"
+        :formLayout="true"
+        :autoFormCreate="
               (form) => {
                 this.form = form;
               }
             "
-          >
-            <ta-form-item label="货品编号" fieldDecoratorId="id" :span="6">
-              <ta-input style="width: 200px" />
-            </ta-form-item>
-            <ta-form-item label="货品名称" fieldDecoratorId="name" :span="6">
-              <ta-input placeholder="" style="width: 200px" />
-            </ta-form-item>
-            <ta-form-item :span="6">
-              <ta-button @click="queryPlanCondition" type="primary"
-                >查询</ta-button
-              >
-              <ta-button @click="resetValue" type="primary">重置</ta-button>
-            </ta-form-item>
-          </ta-form>
-        </div>
-      </ta-card>
-      <div style="padding: 13.5px 0px; height: 477px">
-        <ta-card>
-            <ta-button @click="openModal" style="margin-bottom: 5px;">录入</ta-button>
-          <ta-form
-            :autoFormCreate="
+      >
+        <ta-form-item label="货品编号" fieldDecoratorId="id" :span="5">
+          <ta-input style="width: 180px" placeholder="请输入" />
+        </ta-form-item>
+        <ta-form-item label="货品名称" fieldDecoratorId="name" :span="5">
+          <ta-input placeholder="请输入" style="width: 180px" />
+        </ta-form-item>
+        <ta-form-item :span="6">
+          <ta-button @click="queryPlanCondition" type="primary">
+            <ta-icon type="search" />查询
+          </ta-button>
+          <ta-button @click="resetValue" type="primary">
+            <ta-icon type="reload" />重置
+          </ta-button>
+        </ta-form-item>
+      </ta-form>
+    </ta-card>
+    <ta-card>
+      <ta-button @click="openModal" style="margin-bottom: 5px;" type="primary">
+        <ta-icon type="plus" />录入
+      </ta-button>
+      <ta-form
+        :autoFormCreate="
               (form) => {
                 this.form2 = form;
               }
             "
-          >
-            <ta-table
-              :columns="tableColumns"
-              :dataSource="productionPlan"
-              :haveSn="true"
-              :scroll="{ y: 319 }"
-              size="middle"
-            >
-              <span slot="isCompute" slot-scope="text">
-                <ta-tag v-if="text == '是'" type="success">是</ta-tag>
-                <ta-tag v-else type="danger">否</ta-tag>
-              </span>
-              <ta-table-edit
-                slot="num"
-                slot-scope="text, record"
-                :editForm="form2"
-                :row-editable="true"
-                :rules="[{ required: true, message: '不能为空' }]"
-                type="inputNumber"
-              />
-              <template slot="action" slot-scope="text, record">
-                <ta-table-edit
-                  v-if="record.isCompute !== '是'"
-                  :editForm="form2"
-                  type="rowEdit"
-                  rowKey="inde"
-                  :row-editable="true"
-                  :dataSource="productionPlan"
-                  :beforeChange="fnBeforeChange"
-                  @change="changeData"
-                  @tableChange="fnTableChange"
-                  @rowDelete="fnRowDelete"
-                />
-                <span v-if="record.isCompute == '是'">已计算，无法操作</span>
-              </template>
-              <span slot="num">数量 <ta-icon type="edit" /></span>
-            </ta-table>
-          </ta-form>
-          <ta-pagination
-            style="text-align: right; margin-top: 10px"
-            :dataSource.sync="productionPlan"
-            :params="userPageParams"
-            url="plan/queryPlanInfoPage"
-            ref="gridPager"
+      >
+        <ta-table
+          :columns="tableColumns"
+          :dataSource="productionPlan"
+          :scroll="{ y: 350 }"
+          size="middle"
+        >
+          <span slot="isCompute" slot-scope="text">
+            <ta-tag v-if="text == '是'" type="success">是</ta-tag>
+            <ta-tag v-else type="danger">否</ta-tag>
+          </span>
+          <ta-table-edit
+            slot="num"
+            slot-scope="text, record"
+            :editForm="form2"
+            :row-editable="true"
+            :rules="[{ required: true, message: '不能为空' }]"
+            type="inputNumber"
           />
-          <add-plan :visible="visible" v-if="visible" @hideModal="hideModal" />
-        </ta-card>
-      </div>
-    </div>
+          <template slot="action" slot-scope="text, record">
+            <ta-table-edit
+              v-if="record.isCompute !== '是'"
+              :editForm="form2"
+              type="rowEdit"
+              rowKey="inde"
+              :row-editable="true"
+              :dataSource="productionPlan"
+              :beforeChange="fnBeforeChange"
+              @change="changeData"
+              @tableChange="fnTableChange"
+              @rowDelete="fnRowDelete"
+            />
+            <span v-if="record.isCompute == '是'">已计算，无法操作</span>
+          </template>
+          <span slot="num">
+            数量
+            <ta-icon type="edit" />
+          </span>
+        </ta-table>
+      </ta-form>
+      <ta-pagination
+        style="text-align: right; margin-top: 10px"
+        :dataSource.sync="productionPlan"
+        :params="userPageParams"
+        url="plan/queryPlanInfoPage"
+        ref="gridPager"
+      />
+      <add-plan :visible="visible" v-if="visible" @hideModal="hideModal" />
+    </ta-card>
   </div>
 </template>
 <script>
@@ -100,13 +97,11 @@ const tableColumns = [
     title: "产品品号",
     dataIndex: "id",
     width: "15%",
-    align: "center",
   },
   {
     title: "产品品名",
     dataIndex: "name",
     width: "15%",
-    align: "center",
   },
   {
     title: "单位",
@@ -206,7 +201,12 @@ export default {
           this.form2,
           { inde: data.inde, num: data.num },
           (result) => {
-            this.$message.success(result.data.message);
+            if (result.data.message == "1") {
+              this.$message.error("已计算，无法操作");
+              this.$refs.gridPager.loadData();
+            } else {
+              this.$message.success("修改成功");
+            }
           }
         );
       }

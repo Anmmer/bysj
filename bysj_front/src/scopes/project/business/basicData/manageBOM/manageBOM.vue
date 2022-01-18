@@ -1,114 +1,100 @@
 <template>
   <div>
-    <div style="padding: 0px 5px; background-color: #f0f2f5">
-      <ta-card>
-        <span class="top-text">产品结构</span>
+    <ta-card>
+      <template slot="title">
+        <span>产品结构</span>
         <span class="top1-text">(BOM)</span>
-        <span class="top2-text">管理</span>
-      </ta-card>
-    </div>
-    <div style="padding: 13px; width: 75%; background-color: #f0f2f5">
-      <ta-card style="height: 60px">
-        <div style="position: relative; top: 3.5px">
-          <ta-form
-            layout="horizontal"
-            :formLayout="true"
-            :autoFormCreate="
+        <span>管理</span>
+      </template>
+      <div style="
+        width: 75%;
+      ">
+        <ta-form
+          style="margin-top:10px"
+          layout="horizontal"
+          :formLayout="true"
+          :autoFormCreate="
               (form) => {
                 this.form = form;
               }
             "
-          >
-            <ta-form-item label="货品编号" fieldDecoratorId="id" :span="8">
-              <ta-input style="width: 200px" maxLength="20" />
-            </ta-form-item>
-            <ta-form-item label="货品名称" fieldDecoratorId="name" :span="8">
-              <ta-input placeholder="" style="width: 200px" maxLength="20" />
-            </ta-form-item>
-            <ta-form-item :span="8">
-              <ta-button @click="queryWLCondition" type="primary"
-                ><ta-icon type="search" />查询</ta-button
-              >
-              <ta-button @click="resetValue" type="primary"><ta-icon type="reload" />重置</ta-button>
-            </ta-form-item>
-          </ta-form>
-        </div>
-      </ta-card>
-      <div style="padding: 13.5px 0px 0.5px 0px;">
-        <ta-card>
-          <ta-table
-            :columns="tableColumns"
-            :dataSource="mainBOM"
-            :haveSn="true"
-            :scroll="{ y: 356 }"
-            size="middle"
-          >
-            <template slot="action" slot-scope="text, record">
-              <a @click="openModal(record)">更改BOM</a>
-              <ta-divider type="vertical" />
-              <a @click="openBOM(record)">展开BOM</a>
-              <ta-divider type="vertical" />
-              <ta-popconfirm
-                title="是否确认删除?"
-                @confirm="deleteBomByMainId(record)"
-                cancelText="取消"
-                okText="删除"
-                okType="danger"
-              >
-                <ta-icon
-                  slot="icon"
-                  type="question-circle-o"
-                  style="color: red"
-                />
-                <a>删除</a>
-              </ta-popconfirm>
-            </template>
-          </ta-table>
-          <ta-pagination
-            style="text-align: right; margin-top: 10px"
-            :dataSource.sync="mainBOM"
-            :params="userPageParams"
-            url="basicInfo/queryMainListPage"
-            ref="gridPager"
-          />
-        </ta-card>
+        >
+          <ta-form-item label="货品编号" fieldDecoratorId="id" :span="7">
+            <ta-input style="width: 180px" maxlength="20" placeholder="请输入" />
+          </ta-form-item>
+          <ta-form-item label="货品名称" fieldDecoratorId="name" :span="7">
+            <ta-input placeholder="请输入" style="width: 180px" maxlength="20" />
+          </ta-form-item>
+          <ta-form-item :span="7">
+            <ta-button @click="queryWLCondition" type="primary">
+              <ta-icon type="search" />查询
+            </ta-button>
+            <ta-button @click="resetValue" type="primary">
+              <ta-icon type="reload" />重置
+            </ta-button>
+          </ta-form-item>
+        </ta-form>
       </div>
-    </div>
-    <div
+    </ta-card>
+    <ta-card style="
+        width: 75%;
+      ">
+      <ta-table :columns="tableColumns" :dataSource="mainBOM" :scroll="{ y: 382 }" size="middle">
+        <template slot="action" slot-scope="text, record">
+          <a @click="openModal(record)">更改BOM</a>
+          <ta-divider type="vertical" />
+          <a @click="openBOM(record)">展开BOM</a>
+          <ta-divider type="vertical" />
+          <ta-popconfirm
+            title="是否确认删除?"
+            @confirm="deleteBomByMainId(record)"
+            cancelText="取消"
+            okText="删除"
+            okType="danger"
+          >
+            <ta-icon slot="icon" type="question-circle-o" style="color: red" />
+            <a>删除</a>
+          </ta-popconfirm>
+        </template>
+      </ta-table>
+      <ta-pagination
+        style="text-align: right; margin-top: 10px"
+        :dataSource.sync="mainBOM"
+        :params="userPageParams"
+        url="basicInfo/queryMainListPage"
+        ref="gridPager"
+      />
+    </ta-card>
+    <ta-card
       style="
         position: absolute;
         right: 0px;
-        top: 52px;
+        top: 120px;
         width: 25%;
-        padding: 13.5px 13.5px 10px 0px;
-        background-color: #f0f2f5;
+        height:495px;
       "
     >
-      <ta-card style="height: 538.5px">
-        <p slot="title" style="margin-top: 6px; margin-bottom: 7px">
-          BOM展开图
-        </p>
-        <div>
-          <ta-e-tree
-            :data="tree"
-            node-key="id"
-            :props="defaultProps"
-            :highlight-current="true"
-            :default-expand-all="true"
-          >
-            <span slot-scope="{ node }">
-              <span>{{ node.label }}</span>
-            </span>
-          </ta-e-tree>
-        </div>
-      </ta-card>
-      <edit-children
-        :visible="visible"
-        v-if="visible"
-        :oneMainBom="oneMainBom"
-        @hideModal="hideModal"
-      />
-    </div>
+      <template slot="title">BOM展开图</template>
+      <div>
+        <ta-e-tree
+          :data="tree"
+          node-key="id"
+          :props="defaultProps"
+          :highlight-current="true"
+          :default-expand-all="true"
+        >
+          <span slot-scope="{ node }">
+            <span>{{ node.label }}</span>
+          </span>
+        </ta-e-tree>
+      </div>
+    </ta-card>
+    <edit-children
+      :visible="visible"
+      v-if="visible"
+      :oneMainBom="oneMainBom"
+      @hideModal="hideModal"
+    />
   </div>
 </template>
 <script>
@@ -118,26 +104,24 @@ const tableColumns = [
   {
     title: "科目编号",
     dataIndex: "id",
-    width: "15%",
-    align: "center",
+    width: "18%",
   },
   {
     title: "品名",
     dataIndex: "name",
-    width: "23%",
-    align: "center",
+    width: "22%",
   },
   {
     title: "单位",
+    align: "center",
     dataIndex: "unit",
     width: "11%",
-    align: "center",
   },
   {
     title: "录入时间",
-    dataIndex: "bomdate",
-    width: "20%",
     align: "center",
+    dataIndex: "bomdate",
+    width: "18%",
   },
   {
     title: "操作",
@@ -202,7 +186,7 @@ export default {
       this.$refs.gridPager.loadData((data) => {});
     },
     openBOM(obj) {
-      this.tree = []; 
+      this.tree = [];
       $api.queryBomTree({ id: obj.id }, (result) => {
         result.data.bomTree.label = obj.id + "[" + obj.name + "]";
         this.tree.push(result.data.bomTree);
@@ -221,17 +205,7 @@ export default {
 };
 </script>
 <style scoped type="text/less">
-.top-text {
-  font-weight: 550;
-  font-size: 20px;
-  margin-left: 10px;
-}
 .top1-text {
-  font-weight: 550;
-  font-size: 15px;
-}
-.top2-text {
-  font-weight: 550;
-  font-size: 20px;
+  font-size: 10px;
 }
 </style>

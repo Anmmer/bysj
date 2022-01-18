@@ -1,63 +1,44 @@
 <template>
   <div>
-    <div style="padding: 0px 5px; background-color: #f0f2f5">
-      <ta-card>
-        <span class="top-text">采购订单到货</span>
-      </ta-card>
-    </div>
-    <div
-      style="
-        padding: 13.5px 13.5px 8px 13.5px;
-        width: 100%;
-        background-color: #f0f2f5;
-      "
-    >
-      <ta-card>
-        <ta-button @click="batchOrderArrival" style="margin-bottom: 5px;"
-          >批量到货</ta-button
-        >
-        <ta-table
-          ref="table"
-          :rowSelection="rowSelection"
-          :show-checkbox="true"
-          :columns="tableColumns"
-          :dataSource="Order"
-          :haveSn="false"
-          :scroll="{ y: 393 }"
-          size="middle"
-        >
-          <span slot="isDelivered" slot-scope="text">
-            <ta-tag v-if="text == '是'" type="success">是</ta-tag>
-            <ta-tag v-else type="danger">否</ta-tag>
-          </span>
-          <template slot="action" slot-scope="text, record">
-            <ta-popconfirm
-              v-if="record.isDelivered !== '是'"
-              title="确认到货?"
-              @confirm="orderArrival(record)"
-              cancelText="取消"
-              okText="确定"
-              okType="primary"
-            >
-              <ta-icon
-                slot="icon"
-                type="question-circle-o"
-                style="color: red"
-              />
-              <a>到货</a>
-            </ta-popconfirm>
-            <span v-if="record.isDelivered == '是'">--</span>
-          </template>
-        </ta-table>
-        <ta-pagination
-          style="text-align: right; margin-top: 10px"
-          :dataSource.sync="Order"
-          :params="userPageParams"
-          url="purchaseOrder/queryPurchaseOrderInfoPage"
-          ref="gridPager"
-        />
-      </ta-card>
-    </div>
+    <ta-card title="采购订单到货">
+      <ta-button @click="batchOrderArrival" style="margin-bottom: 5px;">批量到货</ta-button>
+      <ta-table
+        ref="table"
+        :rowSelection="rowSelection"
+        :show-checkbox="true"
+        :columns="tableColumns"
+        :dataSource="Order"
+        :haveSn="false"
+        :scroll="{ y: 426 }"
+        size="middle"
+      >
+        <span slot="isDelivered" slot-scope="text">
+          <ta-tag v-if="text == '是'" type="success">是</ta-tag>
+          <ta-tag v-else type="danger">否</ta-tag>
+        </span>
+        <template slot="action" slot-scope="text, record">
+          <ta-popconfirm
+            v-if="record.isDelivered !== '是'"
+            title="确认到货?"
+            @confirm="orderArrival(record)"
+            cancelText="取消"
+            okText="确定"
+            okType="primary"
+          >
+            <ta-icon slot="icon" type="question-circle-o" style="color: red" />
+            <a>到货</a>
+          </ta-popconfirm>
+          <span v-if="record.isDelivered == '是'">--</span>
+        </template>
+      </ta-table>
+      <ta-pagination
+        style="text-align: right; margin-top: 10px"
+        :dataSource.sync="Order"
+        :params="userPageParams"
+        url="purchaseOrder/queryPurchaseOrderInfoPage"
+        ref="gridPager"
+      />
+    </ta-card>
   </div>
 </template>
 <script>
@@ -172,7 +153,6 @@ export default {
       if (this.selectedRows.length == 0) {
         this.$message.error("请选择");
       } else {
-        console.log(JSON.stringify(this.selectedRows));
         $api.batchOrderArrival(
           { list: JSON.stringify(this.selectedRows) },
           (result) => {

@@ -44,5 +44,6 @@ public interface finishedProductReadService {
 
     Page<PlanInfoVo> queryNumListPage(PlanQueryVo planQueryVo,PageParam pageParam);
 
-    PlanInfoVo queryNumByInde(PlanQueryVo planQueryVo);
+    PlanInfoVo querySunNumById(PlanQueryVo planQueryVo);
+
 }

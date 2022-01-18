@@ -1,7 +1,14 @@
 ta404:
   application:
-    name: ta404
+    name: bysj
     version: 5.1.1.RELEASE
+  modules:
+    captcha:
+      // 是否启用验证码
+#      user-check-code: false
+#      # 验证码类型，可选值：simple/slide
+#      check-code-type: simple
+#      password-validation-error-number: 0
 spring:
   profiles:
     active: dev,mybatis,token,deploy
@@ -22,4 +29,4 @@ server:
   servlet:
     session:
       timeout: 7200s
-    context-path: /ta404
+    context-path: /bysj

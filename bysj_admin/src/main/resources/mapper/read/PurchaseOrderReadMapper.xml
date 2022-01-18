@@ -44,7 +44,7 @@
             <if test="endDate != null">
                 <![CDATA[and  INPUT_DATE < to_date(to_char(#{endDate},'yyyy-mm-dd'),'yyyy-mm-dd') + 1]]>
             </if>
-
+            order by p.IS_DELIVERED DESC
         </where>
     </select>
 </mapper>

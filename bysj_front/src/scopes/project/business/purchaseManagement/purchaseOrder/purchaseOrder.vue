@@ -1,42 +1,32 @@
 <template>
   <div>
-    <div style="padding: 0px 5px; background-color: #f0f2f5">
-      <ta-card>
-        <span class="top-text">采购订单：{{ year }}-{{ month }}</span>
-      </ta-card>
-    </div>
-    <div
-      style="padding: 13.5px 13.5px 8px 13.5px; width: 100%; background-color: #f0f2f5"
-    >
-      <ta-card>
-        <ta-button @click="openModal" style="margin-bottom: 5px;"
-          >生成</ta-button
-        >
-        <ta-table
-          :columns="tableColumns"
-          :dataSource="Order"
-          :haveSn="true"
-          :scroll="{ y: 393 }"
-          size="middle"
-        >
-        </ta-table>
-        <ta-pagination
-          style="text-align: right; margin-top: 10px"
-          :dataSource.sync="Order"
-          :params="userPageParams"
-          url="purchaseOrder/queryPurchaseOrderInfoPage"
-          ref="gridPager"
-        />
-        <add-order
-          :visible="visible"
-          :year="year"
-          :month="month"
-          :day="day"
-          v-if="visible"
-          @hideModal="hideModal"
-        />
-      </ta-card>
-    </div>
+    <ta-card>
+      <span slot="title">采购订单：{{ year }}-{{ month }}</span>
+      <ta-button @click="openModal" style="margin-bottom: 5px;" type="primary">
+        <ta-icon type="plus" />生成
+      </ta-button>
+      <ta-table
+        :columns="tableColumns"
+        :dataSource="Order"
+        :scroll="{ y: 426 }"
+        size="middle"
+      ></ta-table>
+      <ta-pagination
+        style="text-align: right; margin-top: 10px"
+        :dataSource.sync="Order"
+        :params="userPageParams"
+        url="purchaseOrder/queryPurchaseOrderInfoPage"
+        ref="gridPager"
+      />
+      <add-order
+        :visible="visible"
+        :year="year"
+        :month="month"
+        :day="day"
+        v-if="visible"
+        @hideModal="hideModal"
+      />
+    </ta-card>
   </div>
 </template>
 <script>
@@ -45,8 +35,7 @@ const tableColumns = [
   {
     title: "订单号",
     dataIndex: "orderId",
-    width: "20%",
-    align: "center",
+    width: "18%",
   },
   {
     title: "生成日期",

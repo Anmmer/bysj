@@ -11,7 +11,7 @@
       <span>需求计划</span>
       <ta-button
         @click="hideModal"
-        style="position: absolute; right: 100px; top: 12px"
+        style="position: absolute; right: 80px; top: 12px"
         >退出</ta-button
       >
       <ta-button

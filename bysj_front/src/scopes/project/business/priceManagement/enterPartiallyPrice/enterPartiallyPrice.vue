@@ -1,91 +1,81 @@
 <template>
   <div>
-    <div style="padding: 0px 5px; background-color: #f0f2f5">
-      <ta-card>
-        <span class="top-text">半成品单位加工费用录入</span>
-      </ta-card>
-    </div>
-    <div style="padding: 13.5px 13.5px; width: 100%; background-color: #f0f2f5">
-      <ta-card style="height: 60px">
-        <div style="position: relative; top: 3px">
-          <ta-form
-            layout="horizontal"
-            :formLayout="true"
-            :autoFormCreate="
+    <ta-card title="半成品单位加工费用录入">
+      <ta-form
+        style="margin-top:10px"
+        layout="horizontal"
+        :formLayout="true"
+        :autoFormCreate="
               (form) => {
                 this.form = form;
               }
             "
-          >
-            <ta-form-item label="货品编号" fieldDecoratorId="id" :span="6">
-              <ta-input style="width: 200px" />
-            </ta-form-item>
-            <ta-form-item label="货品名称" fieldDecoratorId="name" :span="6">
-              <ta-input placeholder="" style="width: 200px" />
-            </ta-form-item>
-            <ta-form-item :span="6">
-              <ta-button @click="queryWLCondition" type="primary"
-                >查询</ta-button
-              >
-              <ta-button @click="resetValue" type="primary">重置</ta-button>
-            </ta-form-item>
-          </ta-form>
-        </div>
-      </ta-card>
-      <div style="padding: 13.5px 0px; height: 477px">
-        <ta-card>
-          <ta-button @click="openModal" style="margin-bottom: 5px;"
-            >录入</ta-button
-          >
-          <ta-form
-            :autoFormCreate="
+      >
+        <ta-form-item label="货品编号" fieldDecoratorId="id" :span="5">
+          <ta-input style="width: 180px" placeholder="请输入" />
+        </ta-form-item>
+        <ta-form-item label="货品名称" fieldDecoratorId="name" :span="5">
+          <ta-input placeholder="请输入" style="width: 180px" />
+        </ta-form-item>
+        <ta-form-item :span="5">
+          <ta-button @click="queryWLCondition" type="primary"><ta-icon type="search" />查询</ta-button>
+          <ta-button @click="resetValue" type="primary"><ta-icon type="reload" />重置</ta-button>
+        </ta-form-item>
+      </ta-form>
+    </ta-card>
+    <ta-card>
+      <ta-button @click="openModal" style="margin-bottom: 4px;" type="primary">
+        <ta-icon type="plus" />录入
+      </ta-button>
+      <ta-form
+        :autoFormCreate="
               (form) => {
                 this.form2 = form;
               }
             "
-          >
-            <ta-table
-              :columns="tableColumns"
-              :dataSource="rawMaterial"
-              :haveSn="true"
-              :scroll="{ y: 319 }"
-              size="middle"
-            >
-              <ta-table-edit
-                slot="price"
-                slot-scope="text, record"
-                :editForm="form2"
-                :row-editable="true"
-                :rules="[{ required: true, message: '不能为空' }]"
-                type="inputNumber"
-              />
-              <ta-table-edit
-                :editForm="form2"
-                slot="action"
-                slot-scope="text, record"
-                type="rowEdit"
-                rowKey="id"
-                :row-editable="true"
-                :dataSource="rawMaterial"
-                :beforeChange="fnBeforeChange"
-                @change="changeData"
-                @tableChange="fnTableChange"
-                @rowDelete="fnRowDelete"
-              />
-              <span slot="price">工时单价 <ta-icon type="edit"/></span>
-            </ta-table>
-          </ta-form>
-          <ta-pagination
-            style="text-align: right; margin-top: 10px"
-            :dataSource.sync="rawMaterial"
-            :params="userPageParams"
-            url="basicInfo/queryRawListPage"
-            ref="gridPager"
+      >
+        <ta-table
+          :columns="tableColumns"
+          :dataSource="rawMaterial"
+          :scroll="{ y: 351 }"
+          size="middle"
+        >
+          <ta-table-edit
+            slot="price"
+            slot-scope="text, record"
+            :editForm="form2"
+            :row-editable="true"
+            :rules="[{ required: true, message: '不能为空' }]"
+            type="inputNumber"
           />
-          <add-price :visible="visible" v-if="visible" @hideModal="hideModal" />
-        </ta-card>
-      </div>
-    </div>
+          <ta-table-edit
+            :editForm="form2"
+            slot="action"
+            slot-scope="text, record"
+            type="rowEdit"
+            rowKey="id"
+            :row-editable="true"
+            :dataSource="rawMaterial"
+            :beforeChange="fnBeforeChange"
+            @change="changeData"
+            @tableChange="fnTableChange"
+            @rowDelete="fnRowDelete"
+          />
+          <span slot="price">
+            工时单价
+            <ta-icon type="edit" />
+          </span>
+        </ta-table>
+      </ta-form>
+      <ta-pagination
+        style="text-align: right; margin-top: 10px"
+        :dataSource.sync="rawMaterial"
+        :params="userPageParams"
+        url="basicInfo/queryRawListPage"
+        ref="gridPager"
+      />
+      <add-price :visible="visible" v-if="visible" @hideModal="hideModal" />
+    </ta-card>
   </div>
 </template>
 <script>
@@ -97,13 +87,11 @@ const tableColumns = [
     title: "半成品品号",
     dataIndex: "id",
     width: "17%",
-    align: "center",
   },
   {
     title: "半成品品名",
     dataIndex: "name",
     width: "17%",
-    align: "center",
   },
   {
     title: "单位",

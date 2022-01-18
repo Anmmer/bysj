@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * 生产计划(Plan)表控制层
  *
- * @author default
+ * @author changan
  * @since 2020-12-14 14:43:46
  */
 @Validated
@@ -81,11 +81,11 @@ public class PlanRestService extends BaseRestService {
     @PostMapping("editPlanInfo")
     public void editPlanInfo(@Valid PlanEditVo planEditVo) {
         PlanInfoVo planInfoVo = planReadService.queryPlanInfoById(planEditVo.getInde());
-        if (planInfoVo.getIsCompute().equals("是")) {
-            setData("message", "已计算，无法操作");
+        if (("是").equals(planInfoVo.getIsCompute())) {
+            setData("message", "1");
         } else {
             planWriteService.editPlanInfo(planEditVo);
-            setData("message","修改成功");
+            setData("message","2");
         }
     }
 

@@ -70,6 +70,7 @@ export default {
   name: 'loginForm',
   data () {
     return {
+      // simpleCheckCodeState:true,
       imgSrc: getCodeSrc(),
       slideCode: null
     }

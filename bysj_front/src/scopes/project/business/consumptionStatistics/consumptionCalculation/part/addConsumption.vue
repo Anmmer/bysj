@@ -8,10 +8,10 @@
     width="730px"
   >
     <div slot="title">
-      <span>选取产成品生产计划</span>
+      <span>产成品生产计划计算</span>
       <ta-button
         @click="hideModalChildren"
-        style="position: absolute; right: 100px; top: 12px"
+        style="position: absolute; right: 80px; top: 12px"
         >退出</ta-button
       >
       <ta-button

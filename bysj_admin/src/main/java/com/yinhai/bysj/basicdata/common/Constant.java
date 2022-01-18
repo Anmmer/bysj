@@ -1,6 +1,5 @@
 package com.yinhai.bysj.basicdata.common;
 
-import org.springframework.context.annotation.Bean;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

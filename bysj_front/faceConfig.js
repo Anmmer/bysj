@@ -6,16 +6,16 @@ const faceConfig = () => {
     //    1: 前端与后端同时部署时，前端静态资源放置在后端的某个目录下（此处以template为例，后端上下文为ta404）,此时，需要将context设置为  ta404/template  即可
     //    2: 前端部署到无需上下文的环境时（使用npm run build 编译的结果），例如：Tomcat的ROOT目录。此时需要将context设置为  ''
     //    3: 前端通过WAR包部署(使用npm run build:war 编译的结果)，name需要将context以及warName设置同一个名称
-    context: 'ta404',
+    context: 'bysj',
     // 2. 前端项目打war包后，war包的名称
-    warName: 'ta404',
+    warName: 'bysj',
     // 基础路径,打包发布的时候修改为后端发布服务地址
-    basePath: 'http://127.0.0.1:8083/ta404',
+    basePath: 'http://127.0.0.1:8083/bysj',
     // basePath: 'http://114.116.152.220:8081/ta404',
     // 开发模式mockServer服务地址
     mockServer: 'http://192.168.17.18:10000/mock/5b68f9b10b81e375f173f0ed',
     // 开发模式后端服务地址
-    devServer: 'http://localhost:8083/ta404',
+    devServer: 'http://localhost:8083/bysj',
     // devServer: 'http://www.wangbs.work:80',
     // 项目文件打包寻址地址
     docModule: ['corePage/*'],
@@ -37,6 +37,7 @@ const faceConfig = () => {
       'business/purchaseManagement',
       'business/consumptionStatistics',
       'business/statistics',
+      'business/workTable',
       'demoTest'
     ],
     // 首页数据配置
@@ -58,7 +59,7 @@ const faceConfig = () => {
       // 顶部菜单下方条状样式（breadcrumb：面包屑, tab：显示所有tab）
       barType: 'tab',
       // logo 文字
-      logoTitle: 'Ta+3 404开发平台',
+      logoTitle: '零部件可视化系统',
       // logo 图片名称，如logo.png （注意：请将图片放在 src/corePage/index/img 路径下）
       logoImage: 'logo.png',
       // 不显示pageTool工具箱的页面（如：['orguser.html']）
@@ -78,8 +79,9 @@ const faceConfig = () => {
       // 自定义工作台页面，默认页面为workTablePage.html，文字为'工作台'。注：若自定义页面，需在功能资源管理中放开该页面的权限
       worktable: {
         name: '工作台',
-        module: '404.html', //模块
-        part: '', // 路由路径
+        // module: 'workTablePage.html', //模块
+        module: 'workTable.html', //模块
+        part: 'work1', // 路由路径
         prefix: '',
       },
       // html资源获取地址,一般情况下为本系统不需要配置

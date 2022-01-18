@@ -1,5 +1,6 @@
 package com.yinhai.bysj.consumptionstatistics.rest;
 
+import com.yinhai.bysj.consumptionstatistics.entity.FinishedProduct;
 import com.yinhai.bysj.consumptionstatistics.service.read.finishedProductReadService;
 import com.yinhai.bysj.consumptionstatistics.service.write.finishedProductWriteService;
 import com.yinhai.bysj.consumptionstatistics.vo.FinishedProductAddVo;
@@ -42,8 +43,8 @@ public class finishedProductRestService extends BaseRestService {
      */
     @PostMapping("addFinishedProductInfo")
     public void addFinishedProductInfo(@Valid PlanQueryVo planQueryVo) {
-        PlanInfoVo planInfoVo = finishedProductReadService.queryNumByInde(planQueryVo);
-        if(planInfoVo.getConsumeNum()==null){
+        PlanInfoVo planInfoVo = finishedProductReadService.querySunNumById(planQueryVo);
+        if (planInfoVo.getConsumeNum() == null) {
             planInfoVo.setConsumeNum(0);
         }
         if (planInfoVo.getNum() < planQueryVo.getNum() + planInfoVo.getConsumeNum()) {
@@ -85,16 +86,20 @@ public class finishedProductRestService extends BaseRestService {
      */
     @PostMapping("editFinishedProductInfo")
     public void editFinishedProductInfo(@Valid PlanQueryVo planQueryVo) {
-        PlanInfoVo planInfoVo = finishedProductReadService.queryNumByInde(planQueryVo);
-        if (planInfoVo.getNum() < planQueryVo.getNum() + planInfoVo.getConsumeNum()) {
-            setData("message", 1);
-        } else if (finishedProductReadService.queryFinishedProductInfoByInde(planQueryVo.getInde()).getIsCompute() == "是") {
+        PlanInfoVo planInfoVo = finishedProductReadService.querySunNumById(planQueryVo);
+        FinishedProductInfoVo finishedProduct = finishedProductReadService.queryFinishedProductInfoByInde(planQueryVo.getInde());
+        if (planInfoVo.getConsumeNum() == null) {
+            planInfoVo.setConsumeNum(0);
+        }
+        if (("是").equals(finishedProductReadService.queryFinishedProductInfoByInde(planQueryVo.getInde()).getIsCompute())) {
             setData("message", 2);
+        } else if (planInfoVo.getNum() < planQueryVo.getNum()+planInfoVo.getConsumeNum()-finishedProduct.getNum()) {
+            setData("message", 1);
         } else {
             FinishedProductEditVo finishedProductEditVo = new FinishedProductEditVo();
             finishedProductEditVo.setId(planInfoVo.getId());
             finishedProductEditVo.setInde(planQueryVo.getInde());
-            finishedProductEditVo.setNum(planInfoVo.getNum());
+            finishedProductEditVo.setNum(planQueryVo.getNum());
             finishedProductWriteService.editFinishedProductInfo(finishedProductEditVo);
             setData("message", 3);
         }

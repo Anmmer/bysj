@@ -1,99 +1,93 @@
 <template>
   <div>
-    <div style="padding: 0px 5px; background-color: #f0f2f5">
-      <ta-card>
+    <ta-card>
+      <template slot="title">
         <span class="top-text">货品信息管理</span>
-        <span class="top1-text">(产成品、原材料、自制半成品)</span>
-      </ta-card>
-    </div>
-    <div style="padding: 13.5px 13.5px; width: 100%; background-color: #f0f2f5">
-      <ta-card style="height: 60px">
-        <div style="position: relative; top: 3px">
-          <ta-form
-            layout="horizontal"
-            :formLayout="true"
-            :autoFormCreate="
+        <span class="top1-text">(原材料、辅助材料、自制半成品、产成品)</span>
+      </template>
+      <ta-form
+        style="margin-top:10px"
+        layout="horizontal"
+        :formLayout="true"
+        :autoFormCreate="
               (form) => {
                 this.form1 = form;
               }
             "
-          >
-            <ta-form-item label="货品编号" fieldDecoratorId="id" :span="6">
-              <ta-input style="width: 200px" maxLength="20" />
-            </ta-form-item>
-            <ta-form-item label="货品名称" fieldDecoratorId="name" :span="6">
-              <ta-input placeholder="" style="width: 200px" maxLength="20" />
-            </ta-form-item>
-            <ta-form-item label="供货商" fieldDecoratorId="gysid" :span="6">
-              <ta-select style="width: 200px">
-                <ta-select-option v-for="s in this.gysList" :key="s.gysid">{{
-                  s.gys
-                }}</ta-select-option></ta-select
-              >
-            </ta-form-item>
-            <ta-form-item :span="6">
-              <ta-button @click="queryWLCondition" type="primary"
-                ><ta-icon type="search" />查询</ta-button
-              >
-              <ta-button @click="resetValue" type="primary"
-                ><ta-icon type="reload" />重置</ta-button
-              >
-            </ta-form-item>
-          </ta-form>
-        </div>
-      </ta-card>
-      <div style="padding: 13.5px 0px; height: 475px">
-        <ta-card>
-          <ta-button
-            @click="showDrawer"
-            style="margin-bottom: 5px;"
-            type="primary"
-            ><ta-icon type="plus" />新增</ta-button
-          >
-          <ta-button
-            style="margin-bottom: 5px;"
-            @click="exportData"
-          >
-            导出数据
+      >
+        <ta-form-item label="货品编号" fieldDecoratorId="id" :span="5">
+          <ta-input style="width: 180px" maxlength="20" placeholder="请输入" />
+        </ta-form-item>
+        <ta-form-item label="货品名称" fieldDecoratorId="name" :span="5">
+          <ta-input placeholder="请输入" style="width: 180px" maxlength="20" />
+        </ta-form-item>
+        <ta-form-item label="供货商" fieldDecoratorId="gysid" :span="5">
+          <ta-select style="width: 180px" placeholder="全部">
+            <ta-select-option v-for="s in this.gysList" :key="s.gysid">
+              {{
+              s.gys
+              }}
+            </ta-select-option>
+          </ta-select>
+        </ta-form-item>
+        <ta-form-item :span="6">
+          <ta-button @click="queryWLCondition" type="primary">
+            <ta-icon type="search" />查&nbsp;询
           </ta-button>
-          <ta-table
-            :columns="tableColumns"
-            :dataSource="wl"
-            :haveSn="true"
-            :scroll="{ y: 319 }"
-            size="middle"
+          <ta-button @click="resetValue" type="primary">
+            <ta-icon type="reload" />重&nbsp;置
+          </ta-button>
+        </ta-form-item>
+      </ta-form>
+    </ta-card>
+    <ta-card>
+      <ta-button style="margin-bottom:5px" @click="showDrawer" type="primary">
+        <ta-icon type="plus" />新&nbsp;增
+      </ta-button>
+
+      <ta-popconfirm
+        style="position: absolute;right:53px"
+        title="确认导出?"
+        okText="是"
+        cancelText="否"
+        @confirm="exportData"
+      >
+        <ta-button>
+          <ta-icon type="cloud-download" />批量导出
+        </ta-button>
+      </ta-popconfirm>
+
+      <ta-table
+        :customHeaderRow="fnCustomHeaderRow"
+        :columns="tableColumns"
+        :dataSource="wl"
+        :scroll="{ y: 350 }"
+      >
+        <template slot="action" slot-scope="text, record">
+          <a @click="setId(record.id)">修改</a>
+          <ta-divider type="vertical" />
+          <ta-popconfirm
+            title="是否确认删除?"
+            @confirm="RowDelete(record.id)"
+            cancelText="取消"
+            okText="删除"
+            okType="danger"
           >
-            <template slot="action" slot-scope="text, record">
-              <a @click="setId(record.id)">修改</a>
-              <ta-divider type="vertical" />
-              <ta-popconfirm
-                title="是否确认删除?"
-                @confirm="RowDelete(record.id)"
-                cancelText="取消"
-                okText="删除"
-                okType="danger"
-              >
-                <ta-icon
-                  slot="icon"
-                  type="question-circle-o"
-                  style="color: red"
-                />
-                <a>删除</a>
-              </ta-popconfirm>
-            </template>
-          </ta-table>
-          <div>
-            <ta-pagination
-              style="text-align: right; margin-top: 10px"
-              :dataSource.sync="wl"
-              :params="userPageParams"
-              url="basicInfo/queryWlInfoPage"
-              ref="gridPager"
-            />
-          </div>
-        </ta-card>
+            <ta-icon slot="icon" type="question-circle-o" style="color: red" />
+            <a>删除</a>
+          </ta-popconfirm>
+        </template>
+      </ta-table>
+      <div>
+        <ta-pagination
+          style="text-align: right; margin-top: 10px"
+          :dataSource.sync="wl"
+          :params="userPageParams"
+          url="basicInfo/queryWlInfoPage"
+          ref="gridPager"
+        />
       </div>
-    </div>
+    </ta-card>
     <add-info
       @onClose="onClose"
       @addSuccess="addSuccess"
@@ -102,7 +96,6 @@
       :gysList="gysList"
       :id="id"
       :type="type"
-      width="500"
     />
   </div>
 </template>
@@ -255,18 +248,21 @@ export default {
         this.Base.generateExcel(data);
       });
     },
+    fnCustomHeaderRow() {
+      return {
+        // style: {
+        //   fontSize:'14.5px'
+        // }
+      };
+    },
   },
 };
 </script>
-
-<style scoped type="text/less">
-.top-text {
-  font-weight: 550;
-  font-size: 20px;
-  margin-left: 10px;
-}
+<style type="text/less">
 .top1-text {
-  font-weight: 550;
-  font-size: 15px;
+  font-size: 10px;
+}
+.mg-l12 {
+  margin-left: 11px;
 }
 </style>

@@ -68,7 +68,28 @@ export default {
           tooltip: {},
           toolbox: {
             show: true,
-            feature: {        
+            feature: {
+              dataView: {
+                show: true,
+                readOnly: true,
+                optionToContent: function (opt) {
+                  let xAxisData = opt.xAxis3D[0].data; //坐标数据
+                  let yAxisData = opt.yAxis3D[0].data; //坐标数据
+                  let series = opt.series; //坐标数据
+                  let tdHeads = '<td  style="padding: 0 10px">月份</td><td  style="padding: 0 10px">产成品</td><td  style="padding: 0 10px">数量</td>'; //表头
+                  let tdBodys = ""; //数据
+                  let table = `<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>${tdHeads} </tr>`;
+                  for (let i = 0, l = yAxisData.length; i < l; i++) {
+                    for (let j = 0; j < xAxisData.length; j++) {
+                      //组装表数据
+                    table += `<tr><td style="padding: 0 10px">${yAxisData[i]}</td><td>${xAxisData[j]}</td><td>${(series[0].data[l*j+i]).value[2]}</td></tr>`;
+                    }
+                    tdBodys = "";
+                  }
+                  table += "</tbody></table>";
+                  return table;
+                },
+              },
               saveAsImage: { show: true },
             },
           },
@@ -133,7 +154,7 @@ export default {
           series: [
             {
               type: "bar3D",
-              data: result.data.list.map(function(item) {
+              data: result.data.list.map(function (item) {
                 return {
                   value: [item[0], item[1], item[2]],
                 };

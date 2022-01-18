@@ -5,6 +5,7 @@
     :destroyOnClose="true"
     :closable="false"
     width="320px"
+    height="145px"
   >
     <template slot="footer">
       <ta-button key="back" @click="hideModal">退出</ta-button>

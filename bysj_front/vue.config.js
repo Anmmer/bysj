@@ -99,7 +99,7 @@ module.exports = {
     compress: true,
     host: HOST || '0.0.0.0',
     port: PORT || '8081',
-    open: false,
+    open: true,
     openPage: 'login.html',
     index: 'login.html',
     overlay: { warnings: false, errors: true, },

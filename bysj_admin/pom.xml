@@ -18,12 +18,9 @@
 
 
     <properties>
-        <project.build.sourceEncoding>UTF-8
-        </project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8
-        </project.reporting.outputEncoding>
-        <java.version>1.8
-        </java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
@@ -99,6 +96,10 @@
             <groupId>com.yinhai.ta404</groupId>
             <artifactId>ta404-module-captcha-simplecaptcha</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.yinhai.ta404</groupId>-->
+<!--            <artifactId>ta404-module-captcha-slidecaptcha</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.yinhai.ta404</groupId>
             <artifactId>ta404-module-cluster</artifactId>
@@ -131,27 +132,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-devtools</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-devtools</artifactId>-->
+        <!--            <scope>runtime</scope>-->
+        <!--            <optional>true</optional>-->
+        <!--        </dependency>-->
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-<!--                <configuration>-->
-<!--                    &lt;!&ndash; 如果没有该项配置，devtools不会起作用，即应用不会restart &ndash;&gt;-->
-<!--                    <fork>true</fork>-->
-<!--                    <addResources>true</addResources>-->
-<!--                </configuration>-->
-            </plugin>
-        </plugins>
-    </build>
 
 
 </project>

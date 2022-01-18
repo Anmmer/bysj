@@ -39,7 +39,7 @@
         </ta-form-item>
       </ta-form>
     </div>
-    <div style="width: 620px">
+    <div style="width: 660px">
       <ta-table
         :columns="tableColumns"
         :dataSource="childrenBom"
@@ -152,13 +152,11 @@ const addBomColumns = [
     title: "子件编号",
     dataIndex: "id",
     width: "18%",
-    align: "center",
   },
   {
     title: "子件品名",
     dataIndex: "name",
     width: "28%",
-    align: "center",
   },
   {
     title: "单位",
@@ -185,14 +183,12 @@ const tableColumns = [
   {
     title: "科目编号",
     dataIndex: "id",
-    width: "80px",
-    align: "center",
+    width: "100px",
   },
   {
     title: "品名",
     dataIndex: "name",
-    width: "130px",
-    align: "center",
+    width: "125px",
   },
   {
     title: "单位",

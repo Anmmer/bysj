@@ -21,6 +21,7 @@ public interface basicInfoWriteService {
     */
     Wl addWlInfo(WlAddVo wlAddVo);
 
+
     /**
     * 修改数据
     *

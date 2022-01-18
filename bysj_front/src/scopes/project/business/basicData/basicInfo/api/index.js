@@ -54,4 +54,11 @@ export default {
       { successCallback: (data) => callBack(data) }
     );
   },
+  add(form, data, callBack) {
+    Base.submit(
+      form,
+      { url: BASE_URL + "batchAdd", data: data },
+      { successCallback: (data) => callBack(data) }
+    )
+  }
 };

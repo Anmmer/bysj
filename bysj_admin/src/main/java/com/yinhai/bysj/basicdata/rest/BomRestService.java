@@ -32,7 +32,6 @@ import java.util.Map;
  */
 @Validated
 @RestService("bom")
-@Slf4j
 public class BomRestService extends BaseRestService {
     /**
      * 服务对象

@@ -4,7 +4,9 @@ import com.yinhai.bysj.basicdata.entity.Wl;
 import com.yinhai.bysj.basicdata.vo.WlInfoVo;
 import com.yinhai.bysj.basicdata.vo.WlQueryVo;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import com.yinhai.ta404.core.restservice.requestbean.PageParam;
 import com.yinhai.ta404.core.restservice.resultbean.Page;
@@ -44,4 +46,6 @@ public interface basicInfoReadService {
     Page<WlInfoVo> queryMainListPage(WlQueryVo wlQueryVo, PageParam pageParam);
 
     Page<WlInfoVo> queryRawListPage(WlQueryVo wlQueryVo,PageParam pageParam);
+
+//    Map checkImport(InputStream inputStream) throws Exception;
 }

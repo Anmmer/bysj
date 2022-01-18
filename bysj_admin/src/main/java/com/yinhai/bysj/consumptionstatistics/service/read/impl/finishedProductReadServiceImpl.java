@@ -68,8 +68,10 @@ private finishedProductReadMapper finishedProductReadMapper;
     }
 
     @Override
-    public PlanInfoVo queryNumByInde(PlanQueryVo planQueryVo) {
-        return finishedProductReadMapper.queryNumByInde(planQueryVo);
+    public PlanInfoVo querySunNumById(PlanQueryVo planQueryVo) {
+        return finishedProductReadMapper.querySunNumById(planQueryVo);
     }
+
+
 
 }
